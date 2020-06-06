@@ -1,0 +1,100 @@
+#include <stdio.h>
+
+#include "napi.h"
+
+extern "C" {
+  #include "rpi_ws281x/ws2811.h"
+}
+
+
+#define DEFAULT_TARGET_FREQ     800000
+#define DEFAULT_GPIO_PIN        18
+#define DEFAULT_DMANUM          5
+
+ws2811_t ledstring;
+ws2811_channel_t channel0data, channel1data;
+
+Napi::Value wrappedInit(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+    Napi::HandleScope scope(env);
+
+    ledstring.freq = DEFAULT_TARGET_FREQ;
+    ledstring.dmanum  = DEFAULT_DMANUM;
+
+    channel0data.gpionum = DEFAULT_GPIO_PIN;
+    channel0data.invert = 0;
+    channel0data.count = 0;
+    channel0data.brightness = 255;
+
+    channel1data.gpionum = 0;
+    channel1data.invert = 0;
+    channel1data.count = 0;
+    channel1data.brightness = 255;
+
+    ledstring.channel[0] = channel0data;
+    ledstring.channel[1] = channel1data;
+
+    ledstring.channel[0].count = 120;
+
+    int err = ws2811_init(&ledstring);
+
+    if (err) {
+        printf("error initializing\n");
+        Napi::TypeError::New(env, "Init Error").ThrowAsJavaScriptException();
+    }
+
+    return env.Null();
+}
+
+Napi::Value wrappedReset(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+   Napi::HandleScope scope(env);
+
+    memset(ledstring.channel[0].leds, 0, sizeof(*ledstring.channel[0].leds) * ledstring.channel[0].count);
+
+    ws2811_render(&ledstring);
+    ws2811_wait(&ledstring);
+    ws2811_fini(&ledstring);
+
+    return env.Null();}
+
+
+Napi::Value wrappedRender(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+    Napi::HandleScope scope(env);
+
+    if (info.Length() != 1) {
+        std::string err = "Wrong number of arguments " + info.Length();
+        Napi::TypeError::New(env, err.c_str()).ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    if (!info[0].IsTypedArray()) {
+        Napi::TypeError::New(env, "Wrong type argument 0").ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    Napi::Uint32Array values = info[0].As<Napi::Uint32Array>();
+
+    if (values.ByteLength() < sizeof(*ledstring.channel[0].leds) * ledstring.channel[0].count) {
+        Napi::TypeError::New(env, "Wrong length").ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    memcpy(ledstring.channel[0].leds, values.Data(), sizeof(*ledstring.channel[0].leds) * ledstring.channel[0].count);
+
+    ws2811_wait(&ledstring);
+    ws2811_render(&ledstring);
+
+    return env.Null();
+}
+
+Napi::Object Init(Napi::Env env, Napi::Object exports) {
+    exports.Set(Napi::String::New(env, "init"), Napi::Function::New(env, wrappedInit));
+    exports.Set(Napi::String::New(env, "reset"), Napi::Function::New(env, wrappedReset));
+    exports.Set(Napi::String::New(env, "render"), Napi::Function::New(env, wrappedRender));
+
+    return exports;
+}
+
+NODE_API_MODULE(wrapper, Init)

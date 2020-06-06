@@ -1,0 +1,6 @@
+{
+  "name": "ledsegment",
+  "dependencies": {
+    "node-addon-api": "^3.0.0"
+  }
+}
