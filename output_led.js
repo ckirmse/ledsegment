@@ -10,14 +10,6 @@ class OutputLed {
 
     this.ws281x.init(120);
     this.pixel_data = new Uint32Array(120);
-
-    process.on('SIGINT', () => {
-      console.log('terminating');
-      if (this.ws281x) {
-        this.ws281x.reset();
-      }
-      process.exit(0);
-    });
   }
 
   destroy() {
@@ -31,9 +23,9 @@ class OutputLed {
 
   render(display) {
     let i = 0;
-    for (let cell_index = 0; cell_index < display.getCountCells(); cell_index++) {
+    for (let cell_index = 0; cell_index < display.getNumCells(); cell_index++) {
       const cell = display.getCell(cell_index);
-      for (let segment_index = 0; segment_index < Cell.getCountSegments(); segment_index++) {
+      for (let segment_index = 0; segment_index < Cell.getNumSegments(); segment_index++) {
         this.pixel_data[i] = cell.getSegmentColor(segment_index);
         i++;
       }

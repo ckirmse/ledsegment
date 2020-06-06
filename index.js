@@ -2,6 +2,7 @@
 
 const Display = require('./display');
 const log = require('./log');
+const ModeScrollMessage = require('./mode_scroll_message');
 const OutputLed = require('./output_led');
 
 function rgb2Int(r, g, b) {
@@ -16,12 +17,28 @@ function colorwheel(pos) {
   else { pos -= 170; return rgb2Int(pos * 3, 255 - pos * 3, 0); }
 }
 
-const main = function () {
+const sleep = function (ms) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      return resolve();
+    }, ms);
+  });
+}
+
+const main = async function () {
 
   const display = new Display();
   const output_led = new OutputLed();
 
+  process.on('SIGINT', () => {
+    console.log('terminating');
+    output_led.destroy();
+    process.exit(0);
+  });
+
   output_led.setBrightness(100);
+
+  let prev_ms = Date.now();
 
   display.getCell(0).setCharacterColor('A', colorwheel(50));
   display.getCell(1).setCharacterColor('b', colorwheel(150));
@@ -29,9 +46,24 @@ const main = function () {
   display.getCell(3).setCharacterColor('2', colorwheel(70));
   display.getCell(4).setCharacterColor('7', colorwheel(70));
   display.getCell(5).setCharacterColor('%', colorwheel(70));
-  display.getCell(1).setSegmentColor(0, colorwheel(50));
 
-  output_led.render(display);
+  const mode = new ModeScrollMessage('this is a long message');
+  let i = 0;
+  while (true) {
+    let now = Date.now();
+    const elapsed_ms = now - prev_ms;
+
+    mode.runTime(elapsed_ms, display);
+
+    //display.getCell(Math.floor(Math.random() * 8)).setSegmentColor(Math.floor(Math.random() * 15), colorwheel(i % 256));
+    i++;
+
+    output_led.render(display);
+
+    prev_ms = now;
+    await sleep(0);
+  }
+
 
   setTimeout(() => {
     output_led.destroy();
