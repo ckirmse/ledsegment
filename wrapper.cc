@@ -6,7 +6,6 @@ extern "C" {
   #include "rpi_ws281x/ws2811.h"
 }
 
-
 #define DEFAULT_TARGET_FREQ     800000
 #define DEFAULT_GPIO_PIN        18
 #define DEFAULT_DMANUM          5
@@ -17,6 +16,18 @@ ws2811_channel_t channel0data, channel1data;
 Napi::Value wrappedInit(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     Napi::HandleScope scope(env);
+
+    if (info.Length() != 1) {
+        std::string err = "Wrong number of arguments " + info.Length();
+        Napi::TypeError::New(env, err.c_str()).ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    if (!info[0].IsNumber()) {
+        Napi::TypeError::New(env, "Wrong type argument 0").ThrowAsJavaScriptException();
+        return env.Null();
+    }
+    int32_t count = info[0].As<Napi::Number>().Int32Value();
 
     ledstring.freq = DEFAULT_TARGET_FREQ;
     ledstring.dmanum  = DEFAULT_DMANUM;
@@ -34,7 +45,7 @@ Napi::Value wrappedInit(const Napi::CallbackInfo& info) {
     ledstring.channel[0] = channel0data;
     ledstring.channel[1] = channel1data;
 
-    ledstring.channel[0].count = 120;
+    ledstring.channel[0].count = count;
 
     int err = ws2811_init(&ledstring);
 
@@ -42,6 +53,27 @@ Napi::Value wrappedInit(const Napi::CallbackInfo& info) {
         printf("error initializing\n");
         Napi::TypeError::New(env, "Init Error").ThrowAsJavaScriptException();
     }
+
+    return env.Null();
+}
+
+Napi::Value wrappedSetBrightness(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+    Napi::HandleScope scope(env);
+
+    if (info.Length() != 1) {
+        std::string err = "Wrong number of arguments " + info.Length();
+        Napi::TypeError::New(env, err.c_str()).ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    if (!info[0].IsNumber()) {
+        Napi::TypeError::New(env, "Wrong type argument 0").ThrowAsJavaScriptException();
+        return env.Null();
+    }
+    int32_t brightness = info[0].As<Napi::Number>().Int32Value();
+
+    ledstring.channel[0].brightness = brightness;
 
     return env.Null();
 }
@@ -91,6 +123,7 @@ Napi::Value wrappedRender(const Napi::CallbackInfo& info) {
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
     exports.Set(Napi::String::New(env, "init"), Napi::Function::New(env, wrappedInit));
+    exports.Set(Napi::String::New(env, "setBrightness"), Napi::Function::New(env, wrappedSetBrightness));
     exports.Set(Napi::String::New(env, "reset"), Napi::Function::New(env, wrappedReset));
     exports.Set(Napi::String::New(env, "render"), Napi::Function::New(env, wrappedRender));
 
