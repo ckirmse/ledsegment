@@ -10,6 +10,7 @@ class Cell {
   constructor() {
     this.segments = [];
     for (let i = 0; i < NUM_SEGMENTS; i++) {
+      // colors are stored as array of [red, green, blue] in range 0-1
       this.segments.push([0, 0, 0]);
     }
   }

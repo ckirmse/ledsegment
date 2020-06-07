@@ -1,6 +1,6 @@
 'use strict';
 
-const Cell = require('./cell');
+const Layer = require('./layer');
 const log = require('./log');
 
 const NUM_CELLS = 8;
@@ -8,20 +8,22 @@ const NUM_CELLS = 8;
 class Display {
 
   constructor() {
-    this.cells = [];
-    for (let i = 0; i < NUM_CELLS; i++) {
-      this.cells[i] = new Cell();
-    }
+    this.layer = new Layer(NUM_CELLS);
   }
 
-  getNumCells() {
+  static getNumCells() {
     return NUM_CELLS;
   }
 
-  getCell(cell_index) {
-    return this.cells[cell_index];
+  composeLayers(layers) {
+    for (const layer of layers) {
+      layer.compose(this.layer);
+    }
   }
 
+  getDisplayLayer() {
+    return this.layer;
+  }
 }
 
 module.exports = Display;
