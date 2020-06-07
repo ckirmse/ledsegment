@@ -10,7 +10,7 @@ class Cell {
   constructor() {
     this.segments = [];
     for (let i = 0; i < NUM_SEGMENTS; i++) {
-      this.segments[i] = 0;
+      this.segments.push([0, 0, 0]);
     }
   }
 
@@ -20,15 +20,20 @@ class Cell {
 
   clear() {
     for (let i = 0; i < NUM_SEGMENTS; i++) {
-      this.segments[i] = 0;
+      this.segments[i] = [0, 0, 0];
     }
   }
 
   getState() {
-    return {
-      segments: [...this.segments],
+    const retval = {
+      segments: []
     };
+    for (const segment of this.segments) {
+      retval.segments.push(segment.slice());
+    }
+    return retval;
   }
+
   setState(state) {
     this.segments = state.segments;
   }
@@ -54,9 +59,9 @@ class Cell {
     const segment_bits = Characters.getSegmentBitsForCharacter(ch);
     for (let i = 0; i < NUM_SEGMENTS; i++) {
       if (segment_bits & (1 << i)) {
-        this.segments[i] = color;
+        this.segments[i] = color.slice();
       } else {
-        this.segments[i] = 0;
+        this.segments[i] = [0, 0, 0];
       }
     }
   }

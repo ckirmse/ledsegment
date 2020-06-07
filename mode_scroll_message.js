@@ -6,7 +6,7 @@ class ModeScrollMessage {
 
   constructor(message) {
     this.message = message;
-    this.color = 0x00ff2222;
+    this.color = [1.0, 0, 0];
     this.scroll_ms = 400;
     this.remaining_ms = 0;
     this.character_index = 0;
