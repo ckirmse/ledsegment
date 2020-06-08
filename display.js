@@ -17,7 +17,7 @@ class Display {
 
   composeLayers(layers) {
     for (const layer of layers) {
-      layer.compose(this.layer);
+      layer.composeToLayer(this.layer);
     }
   }
 

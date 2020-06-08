@@ -16,7 +16,13 @@ class Layer {
     return this.cells[cell_index];
   }
 
-  compose(layer) {
+  copyToLayer(layer) {
+    for (let i = 0; i < this.cells.length; i++) {
+      layer.getCell(i).setState(this.getCell(i).getState());
+    }
+  }
+
+  composeToLayer(layer) {
     for (let i = 0; i < this.cells.length; i++) {
       layer.getCell(i).setState(this.getCell(i).getState());
     }
