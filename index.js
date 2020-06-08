@@ -3,6 +3,7 @@
 const Display = require('./display');
 const log = require('./log');
 const ModeScrollMessage = require('./mode_scroll_message');
+const ModeStaticMessage = require('./mode_static_message');
 const OutputLed = require('./output_led');
 
 const sleep = function (ms) {
@@ -52,6 +53,10 @@ const runModes = async function (modes) {
 const main = async function () {
 
   await runModes([
+    new ModeStaticMessage('--------', {
+      color: [1, 1, 1],
+      run_ms: 2000,
+    }),
     new ModeScrollMessage('this is a long message', {
       color: [0, 1, 0],
       end: ModeScrollMessage.END_LAST_CHARACTER_VISIBLE,
