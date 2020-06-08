@@ -7,7 +7,7 @@ extern "C" {
 }
 
 #define DEFAULT_TARGET_FREQ     800000
-#define DEFAULT_GPIO_PIN        18
+#define DEFAULT_GPIO_PIN        12
 #define DEFAULT_DMANUM          5
 
 ws2811_t ledstring;
@@ -47,10 +47,10 @@ Napi::Value wrappedInit(const Napi::CallbackInfo& info) {
 
     ledstring.channel[0].count = count;
 
-    int err = ws2811_init(&ledstring);
+    ws2811_return_t err = ws2811_init(&ledstring);
 
     if (err) {
-        printf("error initializing\n");
+        printf("error initializing %i %s\n", err, ws2811_get_return_t_str(err));
         Napi::TypeError::New(env, "Init Error").ThrowAsJavaScriptException();
     }
 
@@ -80,7 +80,7 @@ Napi::Value wrappedSetBrightness(const Napi::CallbackInfo& info) {
 
 Napi::Value wrappedReset(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
-   Napi::HandleScope scope(env);
+    Napi::HandleScope scope(env);
 
     memset(ledstring.channel[0].leds, 0, sizeof(*ledstring.channel[0].leds) * ledstring.channel[0].count);
 
