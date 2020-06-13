@@ -66,6 +66,19 @@ class Cell {
       }
     }
   }
+
+  setAllSegmentsColor(color) {
+    for (let i = 0; i < NUM_SEGMENTS; i++) {
+      this.segments[i] = color.slice();
+    }
+  }
+
+  callEachSegment(func) {
+    for (let i = 0; i < NUM_SEGMENTS; i++) {
+      func(i, this.segments[i]);
+    }
+  }
+
 }
 
 module.exports = Cell;

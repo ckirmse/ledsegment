@@ -2,16 +2,17 @@
 
 const Display = require('./display');
 const Layer = require('./layer');
+const Operator = require('./operator');
 const log = require('./log');
 
-class ModeStaticMessage {
+class StaticMessageOperator extends Operator {
 
   constructor(message, options = {
-    color: [1, 1, 1],
     run_ms: 1000,
   }) {
+    super();
+
     this.message = message;
-    this.color = options.color;
 
     this.remaining_ms = options.run_ms;
 
@@ -21,21 +22,22 @@ class ModeStaticMessage {
   init(display) {
     const num_cells = Display.getNumCells();
     for (let i = 0; i < num_cells; i++) {
-      this.layer.getCell(i).setCharacterColor(this.message[i], this.color);
+      this.layer.getCell(i).setCharacterColor(this.message[i], [1, 1, 1]);
     }
   }
 
-  // returns true when mode is over
-  runTime(ms, display) {
+  runTime(ms) {
+    super.runTime(ms);
     this.remaining_ms -= ms;
-    if (this.remaining_ms <= 0) {
-      return true;
-    }
-
-    display.composeLayers([this.layer]);
-    return false;
   }
 
+  applyToLayer(layer) {
+    this.layer.copyToLayer(layer);
+  }
+
+  isDone() {
+    return this.remaining_ms <= 0;
+  }
 }
 
-module.exports = ModeStaticMessage;
+module.exports = StaticMessageOperator;

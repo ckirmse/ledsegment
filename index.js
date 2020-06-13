@@ -1,9 +1,12 @@
 'use strict';
 
 const Display = require('./display');
+const GammaOperator = require('./gamma_operator');
 const log = require('./log');
-const ModeScrollMessage = require('./mode_scroll_message');
-const ModeStaticMessage = require('./mode_static_message');
+const Mode = require('./mode');
+const ScrollMessageOperator = require('./scroll_message_operator');
+const SetColorOperator = require('./set_color_operator');
+const StaticMessageOperator = require('./static_message_operator');
 const OutputLed = require('./output_led');
 
 const sleep = function (ms) {
@@ -17,6 +20,8 @@ const sleep = function (ms) {
 const runModes = async function (modes) {
   const display = new Display();
   const output_led = new OutputLed();
+
+  const gamma_operator = new GammaOperator();
 
   process.on('SIGINT', () => {
     console.log('terminating');
@@ -36,12 +41,18 @@ const runModes = async function (modes) {
     const elapsed_ms = now - prev_ms;
 
     const mode = modes[mode_index];
-    if (mode.runTime(elapsed_ms, display) === true) {
+    mode.runTime(elapsed_ms);
+
+    if (mode.isDone()) {
       mode_index++;
       if (mode_index < modes.length) {
         modes[mode_index].init(display);
       }
     }
+
+    mode.applyToLayer(display.getDisplayLayer());
+
+    gamma_operator.applyToLayer(display.getDisplayLayer());
 
     output_led.render(display);
 
@@ -53,20 +64,23 @@ const runModes = async function (modes) {
 const main = async function () {
 
   await runModes([
-    new ModeStaticMessage('--------', {
-      color: [1, 1, 1],
-      run_ms: 2000,
-    }),
-    new ModeScrollMessage('this is a long message', {
-      color: [0, 1, 0],
-      end: ModeScrollMessage.END_LAST_CHARACTER_VISIBLE,
-      scroll_ms: ModeScrollMessage.SCROLL_FAST,
-    }),
-    new ModeScrollMessage(' and this is shorter', {
-      color: [0, 1, 1],
-      end: ModeScrollMessage.END_LAST_CHARACTER_OFF,
-      scroll_ms: ModeScrollMessage.SCROLL_FAST,
-    })
+    new Mode([
+      new StaticMessageOperator('*\\/++\\/*', {run_ms: 2000}),
+      new SetColorOperator({color: [1, 0, 0]}),
+    ]),
+    new Mode([
+      new ScrollMessageOperator(' this is a long message', {
+        end: ScrollMessageOperator.END_LAST_CHARACTER_VISIBLE,
+        scroll_ms: ScrollMessageOperator.SCROLL_FAST,
+      }),
+    ]),
+    new Mode([
+      new ScrollMessageOperator(' and this is shorter', {
+        end: ScrollMessageOperator.END_LAST_CHARACTER_OFF,
+        scroll_ms: ScrollMessageOperator.SCROLL_FAST,
+      }),
+      new SetColorOperator({color: [0.3, 0.3, 0.7]}),
+    ]),
   ]);
 
 };

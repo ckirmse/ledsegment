@@ -2,22 +2,24 @@
 
 const Display = require('./display');
 const Layer = require('./layer');
+const Operator = require('./operator');
 const log = require('./log');
 
-class ModeScrollMessage {
+class ScrollMessageOperator extends Operator {
 
   constructor(message, options = {
-    color: [1, 1, 1],
-    end: ModeScrollMessage.END_LAST_CHARACTER_OFF,
-    scroll_ms: ModeScrollMessage.SCROLL_FAST,
+    end: ScrollMessageOperator.END_LAST_CHARACTER_OFF,
+    scroll_ms: ScrollMessageOperator.SCROLL_FAST,
   }) {
+    super();
+
     this.message = message;
-    this.color = options.color;
     this.end = options.end;
     this.scroll_ms = options.scroll_ms;
 
     this.remaining_ms = 0;
     this.character_index = 0;
+    this.is_done = false;
 
     this.layer = new Layer(Display.getNumCells());
   }
@@ -26,20 +28,27 @@ class ModeScrollMessage {
     display.getDisplayLayer().copyToLayer(this.layer);
   }
 
-  // returns true when mode is over
-  runTime(ms, display) {
-    this.remaining_ms -= ms;
-    if (this.remaining_ms > 0) {
-      return false;
+  runTime(ms) {
+    super.runTime(ms);
+
+    if (this.is_done) {
+      return;
     }
 
-    if (this.end === ModeScrollMessage.END_LAST_CHARACTER_OFF) {
+    this.remaining_ms -= ms;
+    if (this.remaining_ms > 0) {
+      return;
+    }
+
+    if (this.end === ScrollMessageOperator.END_LAST_CHARACTER_OFF) {
       if (this.character_index > this.message.length + Display.getNumCells()) {
-        return true;
+        this.is_done = true;
+        return;
       }
     } else {
       if (this.character_index >= this.message.length) {
-        return true;
+        this.is_done = true;
+        return;
       }
     }
 
@@ -56,21 +65,24 @@ class ModeScrollMessage {
     } else {
       ch = ' ';
     }
-    cell.setCharacterColor(ch, this.color);
+    cell.setCharacterColor(ch, [1, 1, 1]);
     this.character_index++;
-
-    display.composeLayers([this.layer]);
-
-    return false;
   }
 
+  applyToLayer(layer) {
+    this.layer.copyToLayer(layer);
+  }
+
+  isDone() {
+    return this.is_done;
+  }
 }
 
-ModeScrollMessage.END_LAST_CHARACTER_VISIBLE = 1;
-ModeScrollMessage.END_LAST_CHARACTER_OFF = 2;
+ScrollMessageOperator.END_LAST_CHARACTER_VISIBLE = 1;
+ScrollMessageOperator.END_LAST_CHARACTER_OFF = 2;
 
-ModeScrollMessage.SCROLL_FAST = 200;
-ModeScrollMessage.SCROLL_MEDIUM = 600;
-ModeScrollMessage.SCROLL_SLOW = 1000;
+ScrollMessageOperator.SCROLL_FAST = 200;
+ScrollMessageOperator.SCROLL_MEDIUM = 600;
+ScrollMessageOperator.SCROLL_SLOW = 1000;
 
-module.exports = ModeScrollMessage;
+module.exports = ScrollMessageOperator;

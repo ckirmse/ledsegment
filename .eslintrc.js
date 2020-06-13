@@ -117,7 +117,6 @@ module.exports = {
         'no-div-regex': 'error',
         'no-duplicate-imports': 'error',
         'no-else-return': 'off',
-        'no-empty-function': 'error',
         'no-eq-null': 'error',
         'no-eval': 'error',
         'no-extend-native': 'error',
@@ -186,10 +185,10 @@ module.exports = {
         'no-unused-vars': [
           1,
           {
+            'args': 'none',
+            'ignoreRestSiblings': true,
             'vars': 'all',
             'varsIgnorePattern': 'log|_',
-            'args': 'none',
-            'ignoreRestSiblings': true
           }
         ],
         'no-use-before-define': 'error',
@@ -197,7 +196,6 @@ module.exports = {
         'no-useless-call': 'error',
         'no-useless-computed-key': 'error',
         'no-useless-concat': 'error',
-        'no-useless-constructor': 'error',
         'no-useless-rename': 'error',
         'no-useless-return': 'error',
         'no-var': 'error',

@@ -27,6 +27,21 @@ class Layer {
       layer.getCell(i).setState(this.getCell(i).getState());
     }
   }
+
+  callEachCell(func) {
+    for (let i = 0; i < this.cells.length; i++) {
+      func(i, this.cells[i]);
+    }
+  }
+
+  callEachSegment(func) {
+    for (let i = 0; i < this.cells.length; i++) {
+      this.cells[i].callEachSegment((segment_index, color) => {
+        func(i, segment_index, color);
+      });
+    }
+  }
+
 }
 
 module.exports = Layer;
