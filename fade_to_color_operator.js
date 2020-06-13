@@ -30,9 +30,9 @@ class FadeToColorOperator extends Operator {
   }
 
   applyToLayer(layer) {
-    layer.callEachSegment((cell_index, segment_index, color) => {
+    for (const [cell_index, segment_index, color] of layer.segmentEntries()) {
       if (color[0] === 0 && color[1] === 0 && color[2] === 0) {
-        return;
+        continue;
       }
 
       const faded_color = [
@@ -42,7 +42,7 @@ class FadeToColorOperator extends Operator {
       ];
 
       layer.getCell(cell_index).setSegmentColor(segment_index, faded_color);
-    });
+    }
   }
 
 }

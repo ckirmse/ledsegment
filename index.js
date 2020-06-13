@@ -67,27 +67,38 @@ const main = async function () {
 
   await runModes([
     new Mode([
-      new SetOnOperator({run_ms: 4000}),
+      new SetOnOperator({run_ms: 2000}),
+      new SetColorOperator({color: [0.001, 0.001, 0.001]}),
       new FadeToColorOperator({
-        run_ms: 4000,
+        run_ms: 100,
+        color: [1, 1, 1]
+      }),
+      new FadeToColorOperator({
+        run_ms: 2000,
         color: [0, 0, 0]
       }),
     ]),
-
-    /*
-     *new Mode([
-     *  new StaticMessageOperator('*\\/++\\/*', {run_ms: 2000}),
-     *  new SetColorOperator({color: [1, 0, 0]}),
-     *]),
-     */
     new Mode([
-      new ScrollMessageOperator(' this is a long message', {
+      new StaticMessageOperator({
+        message: '*\\/++\\/*',
+        run_ms: 2000
+      }),
+      new SetColorOperator({color: [0.001, 0.001, 0.001]}),
+      new FadeToColorOperator({
+        run_ms: 50,
+        color: [1, 0, 0]
+      }),
+    ]),
+    new Mode([
+      new ScrollMessageOperator({
+        message: ' this is a long message',
         end: ScrollMessageOperator.END_LAST_CHARACTER_VISIBLE,
         scroll_ms: ScrollMessageOperator.SCROLL_FAST,
       }),
     ]),
     new Mode([
-      new ScrollMessageOperator(' and this is shorter', {
+      new ScrollMessageOperator({
+        message: ' and this is shorter',
         end: ScrollMessageOperator.END_LAST_CHARACTER_OFF,
         scroll_ms: ScrollMessageOperator.SCROLL_FAST,
       }),

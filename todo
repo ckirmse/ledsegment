@@ -1,7 +1,9 @@
-- make a set color operator
-- make an operator class for brightening/darkening under layer
-- make an operator class for changing colors and stuff
-- make iterator for callEachCell, callEachSegment
+- make an operator class for brightening/darkening under layer (changing Value I guess)
+- make scrolling text its own longer layer with its own sub-layers
+- make set_to_rainbow class
 
 done
 - make an operator class for doing things like scrolling a message
+- make a set color operator
+- make an operator class for changing colors and stuff
+- make iterator for callEachCell, callEachSegment

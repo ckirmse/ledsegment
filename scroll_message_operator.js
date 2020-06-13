@@ -7,13 +7,14 @@ const log = require('./log');
 
 class ScrollMessageOperator extends Operator {
 
-  constructor(message, options = {
+  constructor(options = {
+    message: '',
     end: ScrollMessageOperator.END_LAST_CHARACTER_OFF,
     scroll_ms: ScrollMessageOperator.SCROLL_FAST,
   }) {
     super();
 
-    this.message = message;
+    this.message = options.message;
     this.end = options.end;
     this.scroll_ms = options.scroll_ms;
 

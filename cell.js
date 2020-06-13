@@ -73,9 +73,15 @@ class Cell {
     }
   }
 
-  callEachSegment(func) {
+  *[Symbol.iterator]() {
     for (let i = 0; i < NUM_SEGMENTS; i++) {
-      func(i, this.segments[i]);
+      yield this.segments[i];
+    }
+  }
+
+  *segmentEntries() {
+    for (let i = 0; i < NUM_SEGMENTS; i++) {
+      yield [i, this.segments[i]];
     }
   }
 

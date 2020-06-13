@@ -7,12 +7,13 @@ const log = require('./log');
 
 class StaticMessageOperator extends Operator {
 
-  constructor(message, options = {
+  constructor(options = {
+    message: '',
     run_ms: 1000,
   }) {
     super();
 
-    this.message = message;
+    this.message = options.message;
 
     this.remaining_ms = options.run_ms;
 

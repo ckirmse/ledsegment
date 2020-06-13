@@ -78,7 +78,6 @@ module.exports = {
             'error',
             'unix'
         ],
-        'lines-around-comment': 'error',
         'lines-around-directive': 'error',
         'lines-between-class-members': 'error',
         'max-classes-per-file': 'error',
@@ -90,7 +89,6 @@ module.exports = {
         'max-params': 'error',
         'max-statements': 'off',
         'max-statements-per-line': 'off',
-        'multiline-comment-style': 'error',
         'multiline-ternary': 'error',
         'new-cap': 'error',
         'new-parens': 'error',
@@ -113,7 +111,6 @@ module.exports = {
             }
         ],
         'no-constructor-return': 'error',
-        'no-continue': 'error',
         'no-div-regex': 'error',
         'no-duplicate-imports': 'error',
         'no-else-return': 'off',

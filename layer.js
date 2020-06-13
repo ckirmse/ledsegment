@@ -32,20 +32,25 @@ class Layer {
     }
   }
 
-  callEachCell(func) {
+  *[Symbol.iterator]() {
     for (let i = 0; i < this.cells.length; i++) {
-      func(i, this.cells[i]);
+      yield this.cells[i];
     }
   }
 
-  callEachSegment(func) {
+  *entries() {
     for (let i = 0; i < this.cells.length; i++) {
-      this.cells[i].callEachSegment((segment_index, color) => {
-        func(i, segment_index, color);
-      });
+      yield [i, this.cells[i]];
     }
   }
 
+  *segmentEntries() {
+    for (let i = 0; i < this.cells.length; i++) {
+      for (const [segment_index, color] of this.cells[i].segmentEntries()) {
+        yield [i, segment_index, color];
+      }
+    }
+  }
 }
 
 module.exports = Layer;

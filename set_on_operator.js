@@ -22,9 +22,9 @@ class SetOnOperator extends Operator {
   }
 
   applyToLayer(layer) {
-    layer.callEachCell((cell_index, cell) => {
+    for (const cell of layer) {
       cell.setAllSegmentsColor([1, 1, 1]);
-    });
+    }
   }
 
   isDone() {
