@@ -252,8 +252,6 @@ module.exports = {
             'last'
         ],
         'sort-imports': 'error',
-        'sort-keys': 'error',
-        'sort-vars': 'error',
         'space-before-blocks': 'error',
         'space-before-function-paren': 'off',
         'space-in-parens': [

@@ -12,6 +12,10 @@ class Layer {
     }
   }
 
+  getNumCells() {
+    return this.cells.length;
+  }
+
   getCell(cell_index) {
     return this.cells[cell_index];
   }

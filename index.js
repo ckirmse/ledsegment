@@ -1,11 +1,13 @@
 'use strict';
 
 const Display = require('./display');
+const FadeToColorOperator = require('./fade_to_color_operator');
 const GammaOperator = require('./gamma_operator');
 const log = require('./log');
 const Mode = require('./mode');
 const ScrollMessageOperator = require('./scroll_message_operator');
 const SetColorOperator = require('./set_color_operator');
+const SetOnOperator = require('./set_on_operator');
 const StaticMessageOperator = require('./static_message_operator');
 const OutputLed = require('./output_led');
 
@@ -65,9 +67,19 @@ const main = async function () {
 
   await runModes([
     new Mode([
-      new StaticMessageOperator('*\\/++\\/*', {run_ms: 2000}),
-      new SetColorOperator({color: [1, 0, 0]}),
+      new SetOnOperator({run_ms: 4000}),
+      new FadeToColorOperator({
+        run_ms: 4000,
+        color: [0, 0, 0]
+      }),
     ]),
+
+    /*
+     *new Mode([
+     *  new StaticMessageOperator('*\\/++\\/*', {run_ms: 2000}),
+     *  new SetColorOperator({color: [1, 0, 0]}),
+     *]),
+     */
     new Mode([
       new ScrollMessageOperator(' this is a long message', {
         end: ScrollMessageOperator.END_LAST_CHARACTER_VISIBLE,
@@ -80,6 +92,10 @@ const main = async function () {
         scroll_ms: ScrollMessageOperator.SCROLL_FAST,
       }),
       new SetColorOperator({color: [0.3, 0.3, 0.7]}),
+      new FadeToColorOperator({
+        run_ms: 4000,
+        color: [1.0, 0.0, 0.0]
+      }),
     ]),
   ]);
 
