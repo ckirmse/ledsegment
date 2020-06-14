@@ -8,6 +8,8 @@ const Mode = require('./mode');
 const ScrollMessageOperator = require('./scroll_message_operator');
 const SetColorOperator = require('./set_color_operator');
 const SetOnOperator = require('./set_on_operator');
+const SetToRainbowByCellOperator = require('./set_to_rainbow_by_cell_operator');
+const SetToRainbowBySegmentOperator = require('./set_to_rainbow_by_segment_operator');
 const StaticMessageOperator = require('./static_message_operator');
 const OutputLed = require('./output_led');
 
@@ -73,6 +75,7 @@ const main = async function () {
         run_ms: 100,
         color: [1, 1, 1]
       }),
+      new SetToRainbowByCellOperator(),
       new FadeToColorOperator({
         run_ms: 2000,
         color: [0, 0, 0]
@@ -83,11 +86,7 @@ const main = async function () {
         message: '*\\/++\\/*',
         run_ms: 2000
       }),
-      new SetColorOperator({color: [0.001, 0.001, 0.001]}),
-      new FadeToColorOperator({
-        run_ms: 50,
-        color: [1, 0, 0]
-      }),
+      new SetToRainbowBySegmentOperator(),
     ]),
     new Mode([
       new ScrollMessageOperator({

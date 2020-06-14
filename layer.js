@@ -46,7 +46,7 @@ class Layer {
 
   *segmentEntries() {
     for (let i = 0; i < this.cells.length; i++) {
-      for (const [segment_index, color] of this.cells[i].segmentEntries()) {
+      for (const [segment_index, color] of this.cells[i].entries()) {
         yield [i, segment_index, color];
       }
     }

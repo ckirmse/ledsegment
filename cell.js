@@ -79,7 +79,7 @@ class Cell {
     }
   }
 
-  *segmentEntries() {
+  *entries() {
     for (let i = 0; i < NUM_SEGMENTS; i++) {
       yield [i, this.segments[i]];
     }
