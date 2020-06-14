@@ -22,11 +22,18 @@ class ScrollMessageOperator extends Operator {
     this.character_index = 0;
     this.is_done = false;
 
-    this.layer = new Layer(Display.getNumCells());
+    if (this.end === ScrollMessageOperator.END_LAST_CHARACTER_OFF) {
+      this.message += ' '.repeat(Display.getNumCells());
+    }
+    this.layer = new Layer(this.message.length);
+    for (let i = 0; i < this.message.length; i++) {
+      this.layer.getCell(i).setCharacterColor(this.message[i], [1, 1, 1]);
+    }
   }
 
   init(display) {
-    display.getDisplayLayer().copyToLayer(this.layer);
+    this.dest_index = display.getDisplayLayer().getNumCells();
+    this.run_steps = Math.max(1, this.message.length - (this.dest_index - 1));
   }
 
   runTime(ms) {
@@ -41,37 +48,21 @@ class ScrollMessageOperator extends Operator {
       return;
     }
 
-    if (this.end === ScrollMessageOperator.END_LAST_CHARACTER_OFF) {
-      if (this.character_index > this.message.length + Display.getNumCells()) {
-        this.is_done = true;
-        return;
-      }
-    } else {
-      if (this.character_index >= this.message.length) {
-        this.is_done = true;
-        return;
-      }
+    if (this.character_index >= this.run_steps) {
+      this.is_done = true;
+      return;
     }
 
     this.remaining_ms += this.scroll_ms;
-    const num_cells = Display.getNumCells();
-    for (let i = 0; i < num_cells - 1; i++) {
-      const cell = this.layer.getCell(i);
-      cell.setState(this.layer.getCell(i + 1).getState());
+
+    if (this.dest_index === 0) {
+      this.character_index++;
     }
-    const cell = this.layer.getCell(num_cells - 1);
-    let ch;
-    if (this.character_index < this.message.length) {
-      ch = this.message[this.character_index];
-    } else {
-      ch = ' ';
-    }
-    cell.setCharacterColor(ch, [1, 1, 1]);
-    this.character_index++;
+    this.dest_index = Math.max(0, this.dest_index - 1);
   }
 
   applyToLayer(layer) {
-    this.layer.copyToLayer(layer);
+    this.layer.copyToLayer(layer, this.character_index, this.dest_index);
   }
 
   isDone() {

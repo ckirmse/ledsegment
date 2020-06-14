@@ -2,7 +2,6 @@
 
 const Display = require('./display');
 const FadeToColorOperator = require('./fade_to_color_operator');
-const GammaOperator = require('./gamma_operator');
 const log = require('./log');
 const Mode = require('./mode');
 const ScrollMessageOperator = require('./scroll_message_operator');
@@ -25,15 +24,13 @@ const runModes = async function (modes) {
   const display = new Display();
   const output_led = new OutputLed();
 
-  const gamma_operator = new GammaOperator();
-
   process.on('SIGINT', () => {
     console.log('terminating');
     output_led.destroy();
     process.exit(0);
   });
 
-  output_led.setBrightness(100);
+  output_led.setBrightness(90);
 
   let prev_ms = Date.now();
 
@@ -55,8 +52,6 @@ const runModes = async function (modes) {
     }
 
     mode.applyToLayer(display.getDisplayLayer());
-
-    gamma_operator.applyToLayer(display.getDisplayLayer());
 
     output_led.render(display);
 
@@ -86,7 +81,7 @@ const main = async function () {
         message: '*\\/++\\/*',
         run_ms: 2000
       }),
-      new SetToRainbowBySegmentOperator(),
+      new SetColorOperator({color: [0.1, 0.7, 0.7]}),
     ]),
     new Mode([
       new ScrollMessageOperator({

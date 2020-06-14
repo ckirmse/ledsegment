@@ -1,5 +1,4 @@
 - make an operator class for brightening/darkening under layer (changing Value I guess)
-- make scrolling text its own longer layer with its own sub-layers
 - make a way to have an operator start after another one
 
 done
@@ -9,3 +8,4 @@ done
 - make iterator for callEachCell, callEachSegment
 - make set_to_rainbow_by_segment_operator class
 - make set_to_rainbow_by_cell_operator class
+- make scrolling text its own longer layer with its own sub-layers

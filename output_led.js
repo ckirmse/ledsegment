@@ -1,7 +1,8 @@
 'use strict';
 
-const Cell = require('./cell');
 const Display = require('./display');
+const Layer = require('./layer');
+const GammaOperator = require('./gamma_operator');
 const log = require('./log');
 
 class OutputLed {
@@ -11,6 +12,8 @@ class OutputLed {
 
     this.ws281x.init(120);
     this.pixel_data = new Uint32Array(120);
+
+    this.gamma_operator = new GammaOperator();
   }
 
   destroy() {
@@ -23,15 +26,14 @@ class OutputLed {
   }
 
   render(display) {
-    const layer = display.getDisplayLayer();
+    const output_layer = new Layer(Display.getNumCells());
+    display.getDisplayLayer().copyToLayer(output_layer);
+    this.gamma_operator.applyToLayer(output_layer);
+
     let i = 0;
-    for (let cell_index = 0; cell_index < Display.getNumCells(); cell_index++) {
-      const cell = layer.getCell(cell_index);
-      for (let segment_index = 0; segment_index < Cell.getNumSegments(); segment_index++) {
-        const color = cell.getSegmentColor(segment_index);
-        this.pixel_data[i] = (Math.floor(255 * color[1]) << 16) | (Math.floor(255 * color[0]) << 8) | Math.floor(255 * color[2]);
-        i++;
-      }
+    for (const [cell_index, segment_index, color] of output_layer.segmentEntries()) {
+      this.pixel_data[i] = (Math.floor(255 * color[1]) << 16) | (Math.floor(255 * color[0]) << 8) | Math.floor(255 * color[2]);
+      i++;
     }
 
     this.ws281x.render(this.pixel_data);

@@ -15,12 +15,6 @@ class Display {
     return NUM_CELLS;
   }
 
-  composeLayers(layers) {
-    for (const layer of layers) {
-      layer.composeToLayer(this.layer);
-    }
-  }
-
   getDisplayLayer() {
     return this.layer;
   }
