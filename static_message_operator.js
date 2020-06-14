@@ -1,6 +1,5 @@
 'use strict';
 
-const Display = require('./display');
 const Layer = require('./layer');
 const Operator = require('./operator');
 const log = require('./log');
@@ -14,16 +13,14 @@ class StaticMessageOperator extends Operator {
     super();
 
     this.message = options.message;
+    this.setWidth(this.message.length);
 
     this.remaining_ms = options.run_ms;
 
-    this.layer = new Layer(Display.getNumCells());
-  }
+    this.layer = new Layer(this.width);
 
-  init(display) {
-    const num_cells = Display.getNumCells();
-    for (let i = 0; i < num_cells; i++) {
-      this.layer.getCell(i).setCharacterColor(this.message[i], [1, 1, 1]);
+    for (const [cell_index, cell] of this.layer.entries()) {
+      cell.setCharacterColor(this.message[cell_index], [1, 1, 1]);
     }
   }
 

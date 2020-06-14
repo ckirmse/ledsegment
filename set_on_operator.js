@@ -13,9 +13,6 @@ class SetOnOperator extends Operator {
     this.remaining_ms = options.run_ms;
   }
 
-  init(display) {
-  }
-
   runTime(ms) {
     super.runTime(ms);
     this.remaining_ms -= ms;

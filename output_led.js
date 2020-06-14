@@ -1,6 +1,5 @@
 'use strict';
 
-const Display = require('./display');
 const Layer = require('./layer');
 const GammaOperator = require('./gamma_operator');
 const log = require('./log');
@@ -25,9 +24,9 @@ class OutputLed {
     this.ws281x.setBrightness(brightness);
   }
 
-  render(display) {
-    const output_layer = new Layer(Display.getNumCells());
-    display.getDisplayLayer().copyToLayer(output_layer);
+  render(stack) {
+    const output_layer = new Layer(8);
+    stack.applyToLayer(output_layer);
     this.gamma_operator.applyToLayer(output_layer);
 
     let i = 0;

@@ -1,5 +1,8 @@
+- make an operator to timeout to be done
+- make an operator to run its children sequentially
 - make an operator class for brightening/darkening under layer (changing Value I guess)
 - make a way to have an operator start after another one
+- make a pull request against the native glue module
 
 done
 - make an operator class for doing things like scrolling a message
@@ -9,3 +12,5 @@ done
 - make set_to_rainbow_by_segment_operator class
 - make set_to_rainbow_by_cell_operator class
 - make scrolling text its own longer layer with its own sub-layers
+- make operators able to have children
+- make scrolling a separate operator

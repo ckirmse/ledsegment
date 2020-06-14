@@ -1,10 +1,10 @@
 'use strict';
 
-const Display = require('./display');
+const ConcatenateOperator = require('./concatenate_operator');
 const FadeToColorOperator = require('./fade_to_color_operator');
 const log = require('./log');
-const Mode = require('./mode');
-const ScrollMessageOperator = require('./scroll_message_operator');
+const Operator = require('./operator');
+const ScrollOperator = require('./scroll_operator');
 const SetColorOperator = require('./set_color_operator');
 const SetOnOperator = require('./set_on_operator');
 const SetToRainbowByCellOperator = require('./set_to_rainbow_by_cell_operator');
@@ -20,9 +20,29 @@ const sleep = function (ms) {
   });
 }
 
-const runModes = async function (modes) {
-  const display = new Display();
+const run = async function (output, operator) {
+  let prev_ms = Date.now();
+
+  while (true) {
+    let now = Date.now();
+    const elapsed_ms = now - prev_ms;
+
+    operator.runTime(elapsed_ms);
+
+    if (operator.isDone()) {
+      break;
+    }
+
+    output.render(operator);
+
+    prev_ms = now;
+    await sleep(0);
+  }
+};
+
+const createOutputLed = function () {
   const output_led = new OutputLed();
+  output_led.setBrightness(90);
 
   process.on('SIGINT', () => {
     console.log('terminating');
@@ -30,38 +50,79 @@ const runModes = async function (modes) {
     process.exit(0);
   });
 
-  output_led.setBrightness(90);
-
-  let prev_ms = Date.now();
-
-  let mode_index = 0;
-  modes[mode_index].init(display);
-
-  while (mode_index < modes.length) {
-    let now = Date.now();
-    const elapsed_ms = now - prev_ms;
-
-    const mode = modes[mode_index];
-    mode.runTime(elapsed_ms);
-
-    if (mode.isDone()) {
-      mode_index++;
-      if (mode_index < modes.length) {
-        modes[mode_index].init(display);
-      }
-    }
-
-    mode.applyToLayer(display.getDisplayLayer());
-
-    output_led.render(display);
-
-    prev_ms = now;
-    await sleep(0);
-  }
-};
+  return output_led;
+}
 
 const main = async function () {
+  const output = createOutputLed();
 
+  await run(output, new Operator([
+    new SetOnOperator({run_ms: 2000}),
+    new SetColorOperator({color: [0.001, 0.001, 0.001]}),
+    new FadeToColorOperator({
+      run_ms: 100,
+      color: [1, 1, 1]
+    }),
+    new SetToRainbowByCellOperator(),
+    new FadeToColorOperator({
+      run_ms: 2000,
+      color: [0, 0, 0]
+    }),
+  ]));
+
+  /*
+  await run(output, new ConcatenateOperator([
+    new StaticMessageOperator({
+      message: 'ABC',
+      run_ms: 2000
+    }),
+    new StaticMessageOperator({
+      message: ' DEF',
+      run_ms: 2000
+    }),
+    new StaticMessageOperator({
+      message: ' GHI',
+      run_ms: 2000
+    }),
+  ]));
+  */
+
+  await run(output, new Operator([
+    new StaticMessageOperator({
+      message: '*\\/++\\/*',
+      run_ms: 2000
+    }),
+    new SetColorOperator({color: [0.0001, 0.0001, 0.0001]}),
+    new FadeToColorOperator({
+      run_ms: 50,
+      color: [0.1, 0.7, 0.7]
+    }),
+  ]));
+
+  await run(output, new Operator([
+    new ScrollOperator({
+      scroll_ms: ScrollOperator.SCROLL_FAST,
+    }, [
+      new ConcatenateOperator([
+        new Operator([
+          new ConcatenateOperator([
+            new StaticMessageOperator({
+              message: 'This is a longer message',
+            }),
+          ]),
+          new SetToRainbowByCellOperator(),
+        ]),
+        new StaticMessageOperator({
+          message: ' and this is white text',
+        }),
+        new StaticMessageOperator({
+          message: ' '.repeat(8),
+        }),
+      ]),
+    ]),
+  ]));
+
+/*
   await runModes([
     new Mode([
       new SetOnOperator({run_ms: 2000}),
@@ -103,7 +164,7 @@ const main = async function () {
       }),
     ]),
   ]);
-
+*/
 };
 
 main();

@@ -18,9 +18,6 @@ class FadeToColorOperator extends Operator {
     this.progress_frac = 0;
   }
 
-  init(display) {
-  }
-
   runTime(ms) {
     super.runTime(ms);
     this.remaining_ms = Math.max(0, this.remaining_ms - ms);
