@@ -2,6 +2,7 @@
   "name": "ledsegment",
   "dependencies": {
     "eslint": "^7.2.0",
-    "node-addon-api": "^3.0.0"
+    "node-addon-api": "^3.0.0",
+    "terminal-kit": "^1.35.3"
   }
 }

@@ -53,7 +53,9 @@ class Cell {
       throw new Error('InvalidSegmentIndex');
     }
 
-    this.segments[segment_index] = color;
+    this.segments[segment_index][0] = color[0];
+    this.segments[segment_index][1] = color[1];
+    this.segments[segment_index][2] = color[2];
   }
 
   setCharacterColor(ch, color) {

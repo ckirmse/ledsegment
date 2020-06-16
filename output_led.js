@@ -24,9 +24,9 @@ class OutputLed {
     this.ws281x.setBrightness(brightness);
   }
 
-  render(stack) {
+  render(operator) {
     const output_layer = new Layer(8);
-    stack.applyToLayer(output_layer);
+    operator.applyToLayer(output_layer);
     this.gamma_operator.applyToLayer(output_layer);
 
     let i = 0;

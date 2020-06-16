@@ -14,3 +14,4 @@ done
 - make scrolling text its own longer layer with its own sub-layers
 - make operators able to have children
 - make scrolling a separate operator
+- make a terminal output

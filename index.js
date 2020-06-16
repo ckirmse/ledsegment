@@ -11,6 +11,7 @@ const SetToRainbowByCellOperator = require('./set_to_rainbow_by_cell_operator');
 const SetToRainbowBySegmentOperator = require('./set_to_rainbow_by_segment_operator');
 const StaticMessageOperator = require('./static_message_operator');
 const OutputLed = require('./output_led');
+const OutputTerminal = require('./output_terminal');
 
 const sleep = function (ms) {
   return new Promise((resolve, reject) => {
@@ -53,8 +54,13 @@ const createOutputLed = function () {
   return output_led;
 }
 
+const createOutputTerminal = function () {
+  return new OutputTerminal();
+};
+
 const main = async function () {
-  const output = createOutputLed();
+  //const output = createOutputLed();
+  const output = createOutputTerminal();
 
   await run(output, new Operator([
     new SetOnOperator({run_ms: 2000}),
@@ -165,6 +171,7 @@ const main = async function () {
     ]),
   ]);
 */
+  output.destroy();
 };
 
 main();
