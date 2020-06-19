@@ -1,10 +1,10 @@
 'use strict';
 
 const Layer = require('./layer');
-const Operator = require('./operator');
+const Action = require('./action');
 const log = require('./log');
 
-class StaticMessageOperator extends Operator {
+class StaticMessageAction extends Action {
 
   constructor(options = {
     message: '',
@@ -38,4 +38,4 @@ class StaticMessageOperator extends Operator {
   }
 }
 
-module.exports = StaticMessageOperator;
+module.exports = StaticMessageAction;

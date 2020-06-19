@@ -3,14 +3,14 @@
 const Display = require('./display');
 const Layer = require('./layer');
 const log = require('./log');
-const Operator = require('./operator');
+const Action = require('./action');
 
-class ScrollOperator extends Operator {
+class ScrollAction extends Action {
 
   constructor(options = {
-    scroll_ms: ScrollOperator.SCROLL_FAST,
-  }, child_operators = []) {
-    super(child_operators);
+    scroll_ms: ScrollAction.SCROLL_FAST,
+  }, child_actions = []) {
+    super(child_actions);
 
     this.pad = options.pad;
     this.scroll_ms = options.scroll_ms;
@@ -49,8 +49,8 @@ class ScrollOperator extends Operator {
 
   applyToLayer(layer) {
     const temp_layer = new Layer(this.getWidth());
-    for (const operator of this.child_operators) {
-      operator.applyToLayer(temp_layer);
+    for (const action of this.child_actions) {
+      action.applyToLayer(temp_layer);
     }
 
     temp_layer.copyToLayer(layer, this.src_index, this.dest_index);
@@ -61,8 +61,8 @@ class ScrollOperator extends Operator {
   }
 }
 
-ScrollOperator.SCROLL_FAST = 200;
-ScrollOperator.SCROLL_MEDIUM = 600;
-ScrollOperator.SCROLL_SLOW = 1000;
+ScrollAction.SCROLL_FAST = 200;
+ScrollAction.SCROLL_MEDIUM = 600;
+ScrollAction.SCROLL_SLOW = 1000;
 
-module.exports = ScrollOperator;
+module.exports = ScrollAction;

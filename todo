@@ -1,3 +1,4 @@
+- rename operators to actions
 - make an operator to timeout to be done
 - make an operator to run its children sequentially
 - make an operator class for brightening/darkening under layer (changing Value I guess)

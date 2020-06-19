@@ -1,9 +1,9 @@
 'use strict';
 
-const Operator = require('./operator');
+const Action = require('./action');
 const log = require('./log');
 
-class SetOnOperator extends Operator {
+class SetOnAction extends Action {
 
   constructor(options = {
     run_ms: 1000,
@@ -29,4 +29,4 @@ class SetOnOperator extends Operator {
   }
 }
 
-module.exports = SetOnOperator;
+module.exports = SetOnAction;

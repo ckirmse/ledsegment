@@ -62,9 +62,9 @@ class OutputTerminal {
   setBrightness(brightness) {
   }
 
-  render(operator) {
+  render(action) {
     const output_layer = new Layer(Display.getNumCells());
-    operator.applyToLayer(output_layer);
+    action.applyToLayer(output_layer);
 
     for (const [cell_index, segment_index, color] of output_layer.segmentEntries()) {
       const base_x = cell_index * OUTPUT_SEGMENT_WIDTH;

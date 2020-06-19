@@ -1,7 +1,7 @@
 'use strict';
 
 const Layer = require('./layer');
-const GammaOperator = require('./gamma_operator');
+const GammaAction = require('./gamma_action');
 const log = require('./log');
 
 class OutputLed {
@@ -12,7 +12,7 @@ class OutputLed {
     this.ws281x.init(120);
     this.pixel_data = new Uint32Array(120);
 
-    this.gamma_operator = new GammaOperator();
+    this.gamma_action = new GammaAction();
   }
 
   destroy() {
@@ -24,10 +24,10 @@ class OutputLed {
     this.ws281x.setBrightness(brightness);
   }
 
-  render(operator) {
+  render(action) {
     const output_layer = new Layer(8);
-    operator.applyToLayer(output_layer);
-    this.gamma_operator.applyToLayer(output_layer);
+    action.applyToLayer(output_layer);
+    this.gamma_action.applyToLayer(output_layer);
 
     let i = 0;
     for (const [cell_index, segment_index, color] of output_layer.segmentEntries()) {

@@ -1,10 +1,10 @@
 'use strict';
 
 const log = require('./log');
-const Operator = require('./operator');
+const Action = require('./action');
 const RainbowLib = require('./rainbow_lib');
 
-class SetToRainbowByCellOperator extends Operator {
+class SetToRainbowByCellAction extends Action {
 
   constructor() {
     super();
@@ -28,4 +28,4 @@ class SetToRainbowByCellOperator extends Operator {
 
 }
 
-module.exports = SetToRainbowByCellOperator;
+module.exports = SetToRainbowByCellAction;

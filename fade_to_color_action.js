@@ -1,9 +1,9 @@
 'use strict';
 
-const Operator = require('./operator');
+const Action = require('./action');
 const log = require('./log');
 
-class FadeToColorOperator extends Operator {
+class FadeToColorAction extends Action {
 
   constructor(options = {
     run_ms: 1000,
@@ -44,4 +44,4 @@ class FadeToColorOperator extends Operator {
 
 }
 
-module.exports = FadeToColorOperator;
+module.exports = FadeToColorAction;

@@ -1,9 +1,9 @@
 'use strict';
 
-const Operator = require('./operator');
+const Action = require('./action');
 const log = require('./log');
 
-class SetColorOperator extends Operator {
+class SetColorAction extends Action {
 
   constructor(options = {
     color: [1, 1, 1],
@@ -24,4 +24,4 @@ class SetColorOperator extends Operator {
 
 }
 
-module.exports = SetColorOperator;
+module.exports = SetColorAction;
