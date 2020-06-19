@@ -3,6 +3,7 @@
 - make an operator class for brightening/darkening under layer (changing Value I guess)
 - make a way to have an operator start after another one
 - make a pull request against the native glue module
+- add a fade to other layer operator
 
 done
 - make an operator class for doing things like scrolling a message
