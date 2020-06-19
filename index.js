@@ -1,10 +1,12 @@
 'use strict';
 
 const ConcatenateAction = require('./concatenate_action');
+const DelayAction = require('./delay_action');
 const FadeToColorAction = require('./fade_to_color_action');
 const log = require('./log');
 const Action = require('./action');
 const ScrollAction = require('./scroll_action');
+const SequentialAction = require('./sequential_action');
 const SetColorAction = require('./set_color_action');
 const SetOnAction = require('./set_on_action');
 const SetToRainbowByCellAction = require('./set_to_rainbow_by_cell_action');
@@ -61,19 +63,33 @@ const createOutputTerminal = function () {
 const main = async function () {
   //const output = createOutputLed();
   const output = createOutputTerminal();
+  log.setOutput(output);
 
   await run(output, new Action([
-    new SetOnAction({run_ms: 2000}),
+    new SetOnAction({run_ms: 10000}),
     new SetColorAction({color: [0.001, 0.001, 0.001]}),
     new FadeToColorAction({
       run_ms: 100,
       color: [1, 1, 1]
     }),
     new SetToRainbowByCellAction(),
-    new FadeToColorAction({
-      run_ms: 2000,
-      color: [0, 0, 0]
-    }),
+    new SequentialAction([
+      new DelayAction({ms: 1000}),
+      new FadeToColorAction({
+        run_ms: 2000,
+        color: [1, 1, 1]
+      }), // needs to say it's done xxx
+      new DelayAction({ms: 1000}),
+      new FadeToColorAction({
+        run_ms: 2000,
+        color: [0.3, 1, 0]
+      }),
+      new DelayAction({ms: 1000}),
+      new FadeToColorAction({
+        run_ms: 2000,
+        color: [0, 0, 0]
+      }),
+    ]),
   ]));
 
   await run(output, new Action([

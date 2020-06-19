@@ -24,6 +24,10 @@ class OutputLed {
     this.ws281x.setBrightness(brightness);
   }
 
+  log(...args) {
+    console.log(...args);
+  }
+
   render(action) {
     const output_layer = new Layer(8);
     action.applyToLayer(output_layer);

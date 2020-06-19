@@ -53,6 +53,8 @@ class OutputTerminal {
       dst: this.terminal,
       delta: true,
     });
+
+    this.log_y = OUTPUT_SEGMENT_HEIGHT + 1;
   }
 
   destroy() {
@@ -60,6 +62,17 @@ class OutputTerminal {
   }
 
   setBrightness(brightness) {
+  }
+
+  log(...args) {
+    this.terminal.moveTo(0, this.log_y);
+    this.terminal.defaultColor();
+    this.terminal.bgDefaultColor();
+    console.log(...args);
+    this.log_y++;
+    if (this.log_y > 24) {
+      this.log_y = OUTPUT_SEGMENT_HEIGHT + 1;
+    }
   }
 
   render(action) {

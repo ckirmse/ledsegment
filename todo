@@ -1,10 +1,6 @@
-- rename operators to actions
-- make an operator to timeout to be done
-- make an operator to run its children sequentially
-- make an operator class for brightening/darkening under layer (changing Value I guess)
-- make a way to have an operator start after another one
+- make an action class for brightening/darkening under layer (changing Value I guess)
 - make a pull request against the native glue module
-- add a fade to other layer operator
+- add a fade to other layer action
 
 done
 - make an operator class for doing things like scrolling a message
@@ -17,3 +13,7 @@ done
 - make operators able to have children
 - make scrolling a separate operator
 - make a terminal output
+- rename operators to actions
+- make an action to timeout to be done
+- make an action to run its children sequentially
+- make logging work with terminal

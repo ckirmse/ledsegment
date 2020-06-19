@@ -2,12 +2,24 @@
 
 class Log {
 
+  constructor() {
+    this.output = null;
+  }
+
+  setOutput(output) {
+    this.output = output;
+  }
+
+  log(...args) {
+    this.output.log(...args);
+  }
+
   info(...args) {
-    console.log(...args);
+    this.log(...args);
   }
 
   error(...args) {
-    console.log(...args);
+    this.log(...args);
   }
 }
 
