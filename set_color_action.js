@@ -5,12 +5,12 @@ const log = require('./log');
 
 class SetColorAction extends Action {
 
-  constructor(options = {
-    color: [1, 1, 1],
-  }) {
+  constructor({
+    color = [1, 1, 1],
+  } = {}) {
     super();
 
-    this.color = options.color;
+    this.color = color;
   }
 
   applyToLayer(layer) {

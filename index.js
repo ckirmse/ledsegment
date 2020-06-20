@@ -61,33 +61,36 @@ const createOutputTerminal = function () {
 };
 
 const main = async function () {
-  const output = createOutputLed();
-  //const output = createOutputTerminal();
+  //const output = createOutputLed();
+  const output = createOutputTerminal();
   log.setOutput(output);
 
   await run(output, new Action([
     new SetOnAction(),
     new SetColorAction({color: [0.001, 0.001, 0.001]}),
     new FadeToColorAction({
-      run_ms: 100,
+      ms: 100,
       color: [1, 1, 1]
     }),
     new SetToRainbowByCellAction(),
     new SequentialAction([
       new DelayAction({ms: 1000}),
       new FadeToColorAction({
-        run_ms: 2000,
-        color: [1, 1, 1]
+        ms: 2000,
+        color: [1, 1, 1],
+        child_actions: [
+          new DelayAction({ms: 3000}),
+        ],
       }),
       new DelayAction({ms: 1000}),
       new FadeToColorAction({
-        run_ms: 2000,
-        color: [0.3, 1, 0]
+        ms: 2000,
+        color: [0.3, 1, 0],
       }),
       new DelayAction({ms: 1000}),
       new FadeToColorAction({
-        run_ms: 2000,
-        color: [0, 0, 0]
+        ms: 2000,
+        color: [0, 0, 0],
       }),
     ]),
   ]));
@@ -98,7 +101,7 @@ const main = async function () {
     }),
     new SetColorAction({color: [0.0001, 0.0001, 0.0001]}),
     new FadeToColorAction({
-      run_ms: 50,
+      ms: 50,
       color: [0.1, 0.7, 0.7]
     }),
     new DelayAction({ms: 2000}),
@@ -107,28 +110,29 @@ const main = async function () {
   await run(output, new Action([
     new ScrollAction({
       scroll_ms: ScrollAction.SCROLL_FAST,
-    }, [
-      new ConcatenateAction([
-        new Action([
+      child_actions: [
+        new ConcatenateAction([
+          new Action([
+            new StaticMessageAction({
+              message: 'This is a longer message',
+            }),
+            new SetToRainbowByCellAction(),
+          ]),
           new StaticMessageAction({
-            message: 'This is a longer message',
+            message: ' and this is white text.',
           }),
-          new SetToRainbowByCellAction(),
-        ]),
-        new StaticMessageAction({
-          message: ' and this is white text.',
-        }),
-        new Action([
+          new Action([
+            new StaticMessageAction({
+              message: ' Don\'t forget some rainbow text!',
+            }),
+            new SetToRainbowBySegmentAction(),
+          ]),
           new StaticMessageAction({
-            message: ' Don\'t forget some rainbow text!',
+            message: ' '.repeat(8),
           }),
-          new SetToRainbowBySegmentAction(),
         ]),
-        new StaticMessageAction({
-          message: ' '.repeat(8),
-        }),
-      ]),
-    ]),
+      ],
+    }),
   ]));
 
   output.destroy();

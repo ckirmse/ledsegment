@@ -5,15 +5,16 @@ const log = require('./log');
 
 class FadeToColorAction extends Action {
 
-  constructor(options = {
-    run_ms: 1000,
-    color: [0, 0, 0],
-  }) {
-    super();
+  constructor({
+    child_actions = [],
+    ms = 1000,
+    color = [0, 0, 0]
+  } = {}) {
+    super(child_actions);
 
-    this.color = options.color;
-    this.total_ms = options.run_ms;
-    this.remaining_ms = options.run_ms;
+    this.color = color;
+    this.total_ms = ms;
+    this.remaining_ms = ms;
 
     this.progress_frac = 0;
   }
@@ -43,7 +44,10 @@ class FadeToColorAction extends Action {
   }
 
   isDone() {
-    return this.remaining_ms === 0;
+    if (this.remaining_ms > 0) {
+      return false;
+    }
+    return super.isDone();
   }
 }
 

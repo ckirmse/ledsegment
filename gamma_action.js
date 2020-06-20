@@ -5,12 +5,12 @@ const log = require('./log');
 
 class SetColorAction extends Action {
 
-  constructor(options = {
-    gamma: 2.8,
-  }) {
+  constructor({
+    gamma = 2.8,
+  } = {}) {
     super();
 
-    this.gamma = options.gamma;
+    this.gamma = gamma;
   }
 
   applyToLayer(layer) {
