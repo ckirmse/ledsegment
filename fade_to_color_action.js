@@ -42,6 +42,9 @@ class FadeToColorAction extends Action {
     }
   }
 
+  isDone() {
+    return this.remaining_ms === 0;
+  }
 }
 
 module.exports = FadeToColorAction;

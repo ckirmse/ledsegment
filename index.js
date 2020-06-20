@@ -61,12 +61,12 @@ const createOutputTerminal = function () {
 };
 
 const main = async function () {
-  //const output = createOutputLed();
-  const output = createOutputTerminal();
+  const output = createOutputLed();
+  //const output = createOutputTerminal();
   log.setOutput(output);
 
   await run(output, new Action([
-    new SetOnAction({run_ms: 10000}),
+    new SetOnAction(),
     new SetColorAction({color: [0.001, 0.001, 0.001]}),
     new FadeToColorAction({
       run_ms: 100,
@@ -78,7 +78,7 @@ const main = async function () {
       new FadeToColorAction({
         run_ms: 2000,
         color: [1, 1, 1]
-      }), // needs to say it's done xxx
+      }),
       new DelayAction({ms: 1000}),
       new FadeToColorAction({
         run_ms: 2000,
@@ -95,13 +95,13 @@ const main = async function () {
   await run(output, new Action([
     new StaticMessageAction({
       message: '*\\/++\\/*',
-      run_ms: 2000
     }),
     new SetColorAction({color: [0.0001, 0.0001, 0.0001]}),
     new FadeToColorAction({
       run_ms: 50,
       color: [0.1, 0.7, 0.7]
     }),
+    new DelayAction({ms: 2000}),
   ]));
 
   await run(output, new Action([

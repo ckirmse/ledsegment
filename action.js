@@ -33,11 +33,11 @@ class Action {
 
   isDone() {
     for (const action of this.child_actions) {
-      if (action.isDone()) {
-        return true;
+      if (!action.isDone()) {
+        return false;
       }
     }
-    return false;
+    return true;
   }
 }
 

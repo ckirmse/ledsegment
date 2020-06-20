@@ -8,14 +8,11 @@ class StaticMessageAction extends Action {
 
   constructor(options = {
     message: '',
-    run_ms: 1000,
   }) {
     super();
 
     this.message = options.message;
     this.setWidth(this.message.length);
-
-    this.remaining_ms = options.run_ms;
 
     this.layer = new Layer(this.width);
 
@@ -24,17 +21,8 @@ class StaticMessageAction extends Action {
     }
   }
 
-  runTime(ms) {
-    super.runTime(ms);
-    this.remaining_ms -= ms;
-  }
-
   applyToLayer(layer) {
     this.layer.copyToLayer(layer);
-  }
-
-  isDone() {
-    return this.remaining_ms <= 0;
   }
 }
 
