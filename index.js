@@ -78,11 +78,16 @@ const main = async function () {
         child_actions: [
           new DelayAction({ms: 1000}),
           new FadeToColorAction({
-            ms: 2000,
+            ms: 200,
             color: [1, 1, 1],
-            child_actions: [
-              new DelayAction({ms: 3000}),
-            ],
+            //child_actions: [
+            //  new DelayAction({ms: 3000}),
+            //],
+          }),
+          new FadeToColorAction({
+            is_reversed: true,
+            ms: 200,
+            color: [1, 1, 1],
           }),
           new DelayAction({ms: 1000}),
           new FadeToColorAction({
@@ -91,6 +96,11 @@ const main = async function () {
             child_actions: [
               new DelayAction({ms: 3000}),
             ],
+          }),
+          new FadeToColorAction({
+            is_reversed: true,
+            ms: 2000,
+            color: [0.3, 1, 0],
           }),
           new DelayAction({ms: 1000}),
           new FadeToColorAction({
@@ -134,12 +144,14 @@ const main = async function () {
               new StaticMessageAction({
                 message: ' and this is white text.',
               }),
-              new Action([
-                new StaticMessageAction({
-                  message: ' Don\'t forget some rainbow text!',
-                }),
-                new SetToRainbowBySegmentAction(),
-              ]),
+              new Action({
+                child_actions: [
+                  new StaticMessageAction({
+                    message: ' Don\'t forget some rainbow text!',
+                  }),
+                  new SetToRainbowBySegmentAction(),
+                ],
+              }),
               new StaticMessageAction({
                 message: ' '.repeat(8),
               }),

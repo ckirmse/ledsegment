@@ -9,7 +9,6 @@ class ScrollAction extends Action {
 
   constructor(options = {}) {
     const {
-      child_actions = [],
       scroll_ms = ScrollAction.SCROLL_FAST,
     } = options;
 

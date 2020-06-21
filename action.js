@@ -11,7 +11,7 @@ class Action {
     }
     this.child_actions = child_actions;
 
-    this.width = Math.max(...this.child_actions.map((action) => action.getWidth()));
+    this.width = Math.max(0, ...this.child_actions.map((action) => action.getWidth()));
   }
 
   getWidth() {
