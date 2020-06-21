@@ -5,8 +5,8 @@ const log = require('./log');
 
 class SequentialAction extends Action {
 
-  constructor(child_actions = []) {
-    super(child_actions);
+  constructor(options = {}) {
+    super(options);
 
     this.child_index = 0;
   }

@@ -5,12 +5,14 @@ const log = require('./log');
 
 class FadeToColorAction extends Action {
 
-  constructor({
-    child_actions = [],
-    ms = 1000,
-    color = [0, 0, 0]
-  } = {}) {
-    super(child_actions);
+  constructor(options = {}) {
+    const {
+      child_actions = [],
+      ms = 1000,
+      color = [0, 0, 0],
+    } = options;
+
+    super(options);
 
     this.color = color;
     this.total_ms = ms;
@@ -24,7 +26,6 @@ class FadeToColorAction extends Action {
     this.remaining_ms = Math.max(0, this.remaining_ms - ms);
 
     this.progress_frac = 1 - (this.remaining_ms / this.total_ms);
-
   }
 
   applyToLayer(layer) {

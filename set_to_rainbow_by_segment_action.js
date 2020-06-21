@@ -6,8 +6,8 @@ const RainbowLib = require('./rainbow_lib');
 
 class SetToRainbowBySegmentAction extends Action {
 
-  constructor() {
-    super();
+  constructor(options = {}) {
+    super(options);
 
     this.color_wheel_position = RainbowLib.getRandomInitialValue();
   }

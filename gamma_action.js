@@ -3,12 +3,14 @@
 const Action = require('./action');
 const log = require('./log');
 
-class SetColorAction extends Action {
+class GammaAction extends Action {
 
-  constructor({
-    gamma = 2.8,
-  } = {}) {
-    super();
+  constructor(options = {}) {
+    const {
+      gamma = 2.8,
+    } = options;
+
+    super(options);
 
     this.gamma = gamma;
   }
@@ -26,4 +28,4 @@ class SetColorAction extends Action {
 
 }
 
-module.exports = SetColorAction;
+module.exports = GammaAction;

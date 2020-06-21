@@ -4,10 +4,12 @@ const Action = require('./action');
 
 class DelayAction extends Action {
 
-  constructor({
-    ms = 1000,
-  } = {}) {
-    super();
+  constructor(options = {}) {
+    const {
+      ms = 1000,
+    } = options;
+
+    super(options);
 
     this.remaining_ms = ms;
   }

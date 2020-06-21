@@ -9,8 +9,11 @@ class OutputLed {
   constructor() {
     this.ws281x = require('./binding/ws281x.node');
 
-    this.ws281x.init(120);
-    this.pixel_data = new Uint32Array(120);
+    const num_leds = 120;
+    this.ws281x.init(num_leds, {
+      gpioNum: 12,
+    });
+    this.pixel_data = new Uint32Array(num_leds);
 
     this.gamma_action = new GammaAction();
   }

@@ -7,11 +7,13 @@ const Action = require('./action');
 
 class ScrollAction extends Action {
 
-  constructor({
-    child_actions = [],
-    scroll_ms = ScrollAction.SCROLL_FAST,
-  } = {}) {
-    super(child_actions);
+  constructor(options = {}) {
+    const {
+      child_actions = [],
+      scroll_ms = ScrollAction.SCROLL_FAST,
+    } = options;
+
+    super(options);
 
     this.scroll_ms = scroll_ms;
 

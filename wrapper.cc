@@ -7,27 +7,52 @@ extern "C" {
 }
 
 #define DEFAULT_TARGET_FREQ     800000
-#define DEFAULT_GPIO_PIN        12
+#define DEFAULT_GPIO_PIN        18
 #define DEFAULT_DMANUM          5
 
 ws2811_t ledstring;
 ws2811_channel_t channel0data, channel1data;
 
-Napi::Value wrappedInit(const Napi::CallbackInfo& info) {
+Napi::Value init(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     Napi::HandleScope scope(env);
 
-    if (info.Length() != 1) {
+    if (info.Length() != 1 && info.Length() != 2) {
         std::string err = "Wrong number of arguments " + info.Length();
         Napi::TypeError::New(env, err.c_str()).ThrowAsJavaScriptException();
         return env.Null();
     }
 
     if (!info[0].IsNumber()) {
-        Napi::TypeError::New(env, "Wrong type argument 0").ThrowAsJavaScriptException();
+        Napi::TypeError::New(env, "Wrong type number of leds").ThrowAsJavaScriptException();
         return env.Null();
     }
     int32_t count = info[0].As<Napi::Number>().Int32Value();
+
+    // second (optional) an Object
+    if (info.Length() == 2 && info[1].IsObject()) {
+        Napi::Object config = info[1].As<Napi::Object>();
+
+        if (config.Has("frequency")) {
+            ledstring.freq = config.Get("frequency").As<Napi::Number>().Int32Value();
+        }
+
+        if (config.Has("dmaNum")) {
+            ledstring.dmanum = config.Get("dmaNum").As<Napi::Number>().Int32Value();
+        }
+
+        if (config.Has("gpioPin")) {
+            ledstring.channel[0].gpionum = config.Get("gpioPin").As<Napi::Number>().Int32Value();
+        }
+
+        if (config.Has("invert")) {
+            ledstring.channel[0].invert = config.Get("invert").As<Napi::Number>().Int32Value();
+        }
+
+        if (config.Has("brightness")) {
+            ledstring.channel[0].brightness = config.Get("brightness").As<Napi::Number>().Int32Value();
+        }
+    }
 
     ledstring.freq = DEFAULT_TARGET_FREQ;
     ledstring.dmanum  = DEFAULT_DMANUM;
@@ -57,7 +82,7 @@ Napi::Value wrappedInit(const Napi::CallbackInfo& info) {
     return env.Null();
 }
 
-Napi::Value wrappedSetBrightness(const Napi::CallbackInfo& info) {
+Napi::Value setBrightness(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     Napi::HandleScope scope(env);
 
@@ -78,7 +103,7 @@ Napi::Value wrappedSetBrightness(const Napi::CallbackInfo& info) {
     return env.Null();
 }
 
-Napi::Value wrappedReset(const Napi::CallbackInfo& info) {
+Napi::Value reset(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     Napi::HandleScope scope(env);
 
@@ -88,10 +113,10 @@ Napi::Value wrappedReset(const Napi::CallbackInfo& info) {
     ws2811_wait(&ledstring);
     ws2811_fini(&ledstring);
 
-    return env.Null();}
+    return env.Null();
+}
 
-
-Napi::Value wrappedRender(const Napi::CallbackInfo& info) {
+Napi::Value render(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     Napi::HandleScope scope(env);
 
@@ -122,10 +147,10 @@ Napi::Value wrappedRender(const Napi::CallbackInfo& info) {
 }
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
-    exports.Set(Napi::String::New(env, "init"), Napi::Function::New(env, wrappedInit));
-    exports.Set(Napi::String::New(env, "setBrightness"), Napi::Function::New(env, wrappedSetBrightness));
-    exports.Set(Napi::String::New(env, "reset"), Napi::Function::New(env, wrappedReset));
-    exports.Set(Napi::String::New(env, "render"), Napi::Function::New(env, wrappedRender));
+    exports.Set(Napi::String::New(env, "init"), Napi::Function::New(env, init));
+    exports.Set(Napi::String::New(env, "setBrightness"), Napi::Function::New(env, setBrightness));
+    exports.Set(Napi::String::New(env, "reset"), Napi::Function::New(env, reset));
+    exports.Set(Napi::String::New(env, "render"), Napi::Function::New(env, render));
 
     return exports;
 }

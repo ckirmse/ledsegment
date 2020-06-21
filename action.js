@@ -2,7 +2,10 @@
 
 class Action {
 
-  constructor(child_actions = []) {
+  constructor(options = {}) {
+    const {
+      child_actions = [],
+    } = options;
     if (!Array.isArray(child_actions)) {
       throw new Error('ChildActionsNotArray');
     }

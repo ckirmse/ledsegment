@@ -6,8 +6,9 @@ const Action = require('./action');
 
 class ConcatenateAction extends Action {
 
-  constructor(child_actions = []) {
-    super(child_actions);
+  constructor(options = {}) {
+    super(options);
+
     const sum_child_width = this.child_actions.map((action) => action.getWidth()).reduce((a, b) => a + b);
     this.setWidth(sum_child_width);
   }

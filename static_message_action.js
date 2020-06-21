@@ -6,10 +6,12 @@ const log = require('./log');
 
 class StaticMessageAction extends Action {
 
-  constructor({
-    message = '',
-  } = {}) {
-    super();
+  constructor(options = {}) {
+    const {
+      message = '',
+    } = options;
+
+    super(options);
 
     this.message = message;
     this.setWidth(this.message.length);

@@ -1,6 +1,8 @@
+- build up actions from data structure
 - make an action class for brightening/darkening under layer (changing Value I guess)
-- make a pull request against the native glue module
+- make a pull request against the native glue module (tried once...)
 - add a fade to other layer action
+- make a message action that goes word by word
 
 done
 - make an operator class for doing things like scrolling a message
