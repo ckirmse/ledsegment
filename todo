@@ -3,6 +3,7 @@
 - make a pull request against the native glue module (tried once...)
 - add a fade to other layer action
 - make a message action that goes word by word
+- add x/y coordinate lookups for segments
 
 done
 - make an operator class for doing things like scrolling a message

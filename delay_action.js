@@ -11,7 +11,13 @@ class DelayAction extends Action {
 
     super(options);
 
-    this.remaining_ms = ms;
+    this.total_ms = ms;
+
+    this.reset();
+  }
+
+  reset() {
+    this.remaining_ms = this.total_ms;
   }
 
   runTime(ms) {

@@ -11,6 +11,11 @@ class SequentialAction extends Action {
     this.child_index = 0;
   }
 
+  reset() {
+    super.reset();
+    this.child_index = 0;
+  }
+
   runTime(ms) {
     if (this.isDone()) {
       return;

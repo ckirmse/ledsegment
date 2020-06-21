@@ -1,10 +1,11 @@
 'use strict';
 
+const Action = require('./action');
 const ConcatenateAction = require('./concatenate_action');
 const DelayAction = require('./delay_action');
 const FadeToColorAction = require('./fade_to_color_action');
 const log = require('./log');
-const Action = require('./action');
+const RepeatAction = require('./repeat_action');
 const ScrollAction = require('./scroll_action');
 const SequentialAction = require('./sequential_action');
 const SetColorAction = require('./set_color_action');
@@ -77,17 +78,24 @@ const main = async function () {
       new SequentialAction({
         child_actions: [
           new DelayAction({ms: 1000}),
-          new FadeToColorAction({
-            ms: 200,
-            color: [1, 1, 1],
-            //child_actions: [
-            //  new DelayAction({ms: 3000}),
-            //],
-          }),
-          new FadeToColorAction({
-            is_reversed: true,
-            ms: 200,
-            color: [1, 1, 1],
+          new RepeatAction({
+            count: 5,
+            child_actions: [
+              new SequentialAction({
+                child_actions: [
+                  new FadeToColorAction({
+                    ms: 200,
+                    color: [1, 1, 1],
+                  }),
+                  new FadeToColorAction({
+                    is_reversed: true,
+                    ms: 200,
+                    color: [1, 1, 1],
+                  }),
+                  new DelayAction({ms: 300}),
+                ],
+              }),
+            ],
           }),
           new DelayAction({ms: 1000}),
           new FadeToColorAction({

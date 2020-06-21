@@ -22,6 +22,16 @@ class Action {
     this.width = width;
   }
 
+  resetAllChildren() {
+    for (const action of this.child_actions) {
+      action.reset();
+    }
+  }
+
+  reset() {
+    this.resetAllChildren();
+  }
+
   runTime(ms) {
     for (const action of this.child_actions) {
       action.runTime(ms);

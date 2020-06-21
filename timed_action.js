@@ -16,7 +16,11 @@ class TimedAction extends Action {
     this.total_ms = ms;
     this.is_reversed = options.is_reversed;
 
-    this.remaining_ms = ms;
+    this.reset();
+  }
+
+  reset() {
+    this.remaining_ms = this.total_ms;
     this.progress_frac = 0;
   }
 

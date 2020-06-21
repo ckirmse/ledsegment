@@ -16,7 +16,9 @@ function colorwheel(pos) {
 
 const main = function () {
   const num_leds = 120;
-  ws281x.init(num_leds);
+  ws281x.init(num_leds, {
+    gpioNum: 12,
+  });
 
   ws281x.setBrightness(100);
 
