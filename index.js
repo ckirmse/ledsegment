@@ -1,18 +1,8 @@
 'use strict';
 
-const Action = require('./action');
-const ConcatenateAction = require('./concatenate_action');
-const DelayAction = require('./delay_action');
-const FadeToColorAction = require('./fade_to_color_action');
+const ActionTree = require('./action_tree');
 const log = require('./log');
-const RepeatAction = require('./repeat_action');
 const ScrollAction = require('./scroll_action');
-const SequentialAction = require('./sequential_action');
-const SetColorAction = require('./set_color_action');
-const SetOnAction = require('./set_on_action');
-const SetToRainbowByCellAction = require('./set_to_rainbow_by_cell_action');
-const SetToRainbowBySegmentAction = require('./set_to_rainbow_by_segment_action');
-const StaticMessageAction = require('./static_message_action');
 const OutputLed = require('./output_led');
 const OutputTerminal = require('./output_terminal');
 
@@ -62,112 +52,124 @@ const createOutputTerminal = function () {
 };
 
 const main = async function () {
-  const output = createOutputLed();
-  //const output = createOutputTerminal();
+  //const output = createOutputLed();
+  const output = createOutputTerminal();
   log.setOutput(output);
 
-  await run(output, new Action({
-    child_actions: [
-      new SetOnAction(),
-      new SetColorAction({color: [0.001, 0.001, 0.001]}),
-      new FadeToColorAction({
+  await run(output, ActionTree.createActionFromData({
+    type: 'default',
+    child_actions: [{
+      type: 'set_on',
+    }, {
+      type: 'set_color',
+      color: [0.001, 0.001, 0.001],
+    }, {
+      type: 'fade_to_color',
         ms: 100,
-        color: [1, 1, 1]
-      }),
-      new SetToRainbowByCellAction(),
-      new SequentialAction({
-        child_actions: [
-          new DelayAction({ms: 1000}),
-          new RepeatAction({
-            count: 5,
-            child_actions: [
-              new SequentialAction({
-                child_actions: [
-                  new FadeToColorAction({
-                    ms: 200,
-                    color: [1, 1, 1],
-                  }),
-                  new FadeToColorAction({
-                    is_reversed: true,
-                    ms: 200,
-                    color: [1, 1, 1],
-                  }),
-                  new DelayAction({ms: 300}),
-                ],
-              }),
-            ],
-          }),
-          new DelayAction({ms: 1000}),
-          new FadeToColorAction({
-            ms: 2000,
-            color: [0.3, 1, 0],
-            child_actions: [
-              new DelayAction({ms: 3000}),
-            ],
-          }),
-          new FadeToColorAction({
+      color: [1, 1, 1],
+    }, {
+      type: 'set_to_rainbow_by_cell',
+    }, {
+      type: 'sequential',
+      child_actions: [{
+        type: 'delay',
+        ms: 1000,
+      }, {
+        type: 'repeat',
+        count: 5,
+        child_actions: [{
+          type: 'sequential',
+          child_actions: [{
+            type: 'fade_to_color',
+            ms: 200,
+            color: [1, 1, 1],
+          }, {
+            type: 'fade_to_color',
+            ms: 200,
+            color: [1, 1, 1],
             is_reversed: true,
-            ms: 2000,
-            color: [0.3, 1, 0],
-          }),
-          new DelayAction({ms: 1000}),
-          new FadeToColorAction({
-            ms: 2000,
-            color: [0, 0, 0],
-          }),
-        ],
-      }),
-    ],
+          }, {
+            type: 'delay',
+            ms: 300,
+          }],
+        }],
+      }, {
+        type: 'delay',
+        ms: 1000,
+      }, {
+        type: 'fade_to_color',
+        ms: 2000,
+        color: [0.3, 1, 0],
+        child_actions: [{
+          type: 'delay',
+          ms: 3000,
+        }]
+      }, {
+        type: 'fade_to_color',
+        is_reversed: true,
+        ms: 2000,
+        color: [0.3, 1, 0],
+      }, {
+        type: 'delay',
+        ms: 1000,
+      }, {
+        type: 'fade_to_color',
+        ms: 2000,
+        color: [0, 0, 0],
+      }],
+    }],
   }));
 
-  await run(output, new Action({
-    child_actions: [
-      new StaticMessageAction({
-        message: '*\\/++\\/*',
-      }),
-      new SetColorAction({color: [0.0001, 0.0001, 0.0001]}),
-      new FadeToColorAction({
-        ms: 50,
-        color: [0.1, 0.7, 0.7]
-      }),
-      new DelayAction({ms: 2000}),
-    ]
+  await run(output, ActionTree.createActionFromData({
+    type: 'default',
+    child_actions: [{
+      type: 'static_message',
+      message: '*\\/++\\/*',
+    }, {
+      type: 'set_color',
+      color: [0.0001, 0.0001, 0.0001],
+    }, {
+      type: 'fade_to_color',
+      ms: 50,
+      color: [0.1, 0.7, 0.7],
+    }, {
+      type: 'delay',
+      ms: 2000,
+    }],
   }));
 
-  await run(output, new Action({
-    child_actions: [
-      new ScrollAction({
-        scroll_ms: ScrollAction.SCROLL_FAST,
-        child_actions: [
-          new ConcatenateAction({
-            child_actions: [
-              new Action({
-                child_actions: [
-                  new StaticMessageAction({
-                    message: 'This is a longer message',
-                  }),
-                  new SetToRainbowByCellAction(),
-                ]
-              }),
-              new StaticMessageAction({
-                message: ' and this is white text.',
-              }),
-              new Action({
-                child_actions: [
-                  new StaticMessageAction({
-                    message: ' Don\'t forget some rainbow text!',
-                  }),
-                  new SetToRainbowBySegmentAction(),
-                ],
-              }),
-              new StaticMessageAction({
-                message: ' '.repeat(8),
-              }),
-            ],
-          }),
-        ],
-      }),
-    ],
+  await run(output, ActionTree.createActionFromData({
+    type: 'default',
+    child_actions: [{
+      type: 'scroll',
+      scroll_ms: ScrollAction.SCROLL_FAST,
+      child_actions: [{
+        type: 'concatenate',
+        child_actions: [{
+          type: 'default',
+          child_actions: [{
+            type: 'static_message',
+            message: 'This is a longer message',
+          }, {
+            type: 'set_to_rainbow_by_cell',
+          }],
+        }, {
+          type: 'static_message',
+          message: ' and this is white text.',
+        }, {
+          type: 'default',
+          child_actions: [{
+            type: 'static_message',
+            message: 'Don\'t forget some rainbow text!',
+          }, {
+            type: 'set_to_rainbow_by_segment',
+          }],
+        }, {
+          type: 'static_message',
+          message: ' '.repeat(8),
+        }],
+      }],
+    }],
   }));
 
   output.destroy();

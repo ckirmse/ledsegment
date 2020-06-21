@@ -1,4 +1,3 @@
-- build up actions from data structure
 - make an action class for brightening/darkening under layer (changing Value I guess)
 - make a pull request against the native glue module (tried once...)
 - add a fade to other layer action
@@ -20,3 +19,4 @@ done
 - make an action to timeout to be done
 - make an action to run its children sequentially
 - make logging work with terminal
+- build up actions from data structure
