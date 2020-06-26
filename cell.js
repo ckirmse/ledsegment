@@ -5,6 +5,43 @@ const log = require('./log');
 
 const NUM_SEGMENTS = 15;
 
+/*
+segment indexes:
+ ---0---
+ |\ | /|
+ |\ c /|
+ 5 9|8 1
+ | \|/ |
+ |6- 7-|
+ |  |  |
+ | a|b |
+ 4/ d \2
+ |/ | \|
+ ---3---15
+
+*/
+
+const segment_grid_coords_map = {
+  0: [[1, 0], [2, 0], [3, 0], [4, 0], [5, 0]],
+  1: [[6, 1], [6, 2], [6, 3], [6, 4]],
+  2: [[6, 6], [6, 7], [6, 8], [6, 9]],
+  3: [[1, 10], [2, 10], [3, 10], [4, 10], [5, 10]],
+  4: [[0, 6], [0, 7], [0, 8], [0, 9]],
+  5: [[0, 1], [0, 2], [0, 3], [0, 4]],
+  6: [[1, 5], [2, 5], [3, 5]],
+  7: [[4, 5], [5, 5]],
+  8: [[5, 1], [5, 2], [4, 3], [4, 4]],
+  9: [[2, 4], [2, 3], [1, 2], [1, 1]],
+  10: [[2, 6], [2, 7], [1, 8], [1, 9]],
+  11: [[4, 6], [4, 7], [5, 8], [5, 9]],
+  12: [[3, 1], [3, 2], [3, 3], [3, 4]],
+  13: [[3, 6], [3, 7], [3, 8], [3, 9]],
+  14: [[7, 10]],
+};
+
+const GRID_WIDTH = 8;
+const GRID_HEIGHT = 11;
+
 class Cell {
 
   constructor() {
@@ -17,6 +54,18 @@ class Cell {
 
   static getNumSegments() {
     return NUM_SEGMENTS;
+  }
+
+  static getSegmentGridCoords(segment_index) {
+    return segment_grid_coords_map[segment_index];
+  }
+
+  static getGridWidth() {
+    return GRID_WIDTH;
+  }
+
+  static getGridHeight() {
+    return GRID_HEIGHT;
   }
 
   clear() {

@@ -5,6 +5,8 @@ const ConcatenateAction = require('./concatenate_action');
 const DelayAction = require('./delay_action');
 const FadeToColorAction = require('./fade_to_color_action');
 const log = require('./log');
+const MaskLeftToRightAction = require('./mask_left_to_right_action');
+const MaskTopToBottomAction = require('./mask_top_to_bottom_action');
 const RepeatAction = require('./repeat_action');
 const ScrollAction = require('./scroll_action');
 const SequentialAction = require('./sequential_action');
@@ -38,6 +40,10 @@ class ActionTree {
       return new DelayAction(create_options);
     case 'fade_to_color':
       return new FadeToColorAction(create_options);
+    case 'mask_left_to_right_action':
+      return new MaskLeftToRightAction(create_options);
+    case 'mask_top_to_bottom_action':
+      return new MaskTopToBottomAction(create_options);
     case 'repeat':
       return new RepeatAction(create_options);
     case 'scroll':

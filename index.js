@@ -52,8 +52,8 @@ const createOutputTerminal = function () {
 };
 
 const main = async function () {
-  //const output = createOutputLed();
-  const output = createOutputTerminal();
+  const output = createOutputLed();
+  //const output = createOutputTerminal();
   log.setOutput(output);
 
   await run(output, ActionTree.createActionFromData({
@@ -116,6 +116,24 @@ const main = async function () {
         type: 'fade_to_color',
         ms: 2000,
         color: [0, 0, 0],
+      }],
+    }, {
+      type: 'sequential',
+      child_actions: [{
+        type: 'mask_top_to_bottom_action',
+        ms: 200,
+        turn_on: true,
+      }, {
+        type: 'delay',
+        ms: 1000,
+      }, {
+        type: 'mask_top_to_bottom_action',
+        ms: 2000,
+        turn_on: false,
+      }, {
+        type: 'mask_left_to_right_action',
+        ms: 2000,
+        turn_on: true,
       }],
     }],
   }));

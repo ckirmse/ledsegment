@@ -2,7 +2,8 @@
 - make a pull request against the native glue module (tried once...)
 - add a fade to other layer action
 - make a message action that goes word by word
-- add x/y coordinate lookups for segments
+- make actions get loaded by directory so action_tree is automated
+- rename delay_action to wait_action
 
 done
 - make an operator class for doing things like scrolling a message
@@ -20,3 +21,4 @@ done
 - make an action to run its children sequentially
 - make logging work with terminal
 - build up actions from data structure
+- add x/y coordinate lookups for segments
