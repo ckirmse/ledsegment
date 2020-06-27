@@ -96,7 +96,7 @@ const main = async function () {
         ms: 1000,
         turn_on: true,
       }, {
-        type: 'delay',
+        type: 'wait',
         ms: 2000,
       }, {
         type: 'mask_left_to_right',
@@ -123,7 +123,7 @@ const main = async function () {
     }, {
       type: 'sequential',
       child_actions: [{
-        type: 'delay',
+        type: 'wait',
         ms: 3000,
       }, {
         type: 'repeat',
@@ -140,19 +140,19 @@ const main = async function () {
             color: [1, 1, 1],
             is_reversed: true,
           }, {
-            type: 'delay',
+            type: 'wait',
             ms: 300,
           }],
         }],
       }, {
-        type: 'delay',
+        type: 'wait',
         ms: 1000,
       }, {
         type: 'fade_to_color',
         ms: 2000,
         color: [0.3, 1, 0],
         child_actions: [{
-          type: 'delay',
+          type: 'wait',
           ms: 3000,
         }]
       }, {
@@ -161,7 +161,7 @@ const main = async function () {
         ms: 2000,
         color: [0.3, 1, 0],
       }, {
-        type: 'delay',
+        type: 'wait',
         ms: 1000,
       }, {
         type: 'fade_to_color',
@@ -171,11 +171,18 @@ const main = async function () {
     }, {
       type: 'sequential',
       child_actions: [{
-        type: 'mask_top_to_bottom',
-        ms: 2000,
-        turn_on: true,
+        type: 'default',
+        child_actions: [{
+          type: 'mask_top_to_bottom',
+          ms: 2000,
+          turn_on: true,
+        }, {
+          type: 'mask_left_to_right',
+          ms: 2000,
+          turn_on: true,
+        }],
       }, {
-        type: 'delay',
+        type: 'wait',
         ms: 4000,
       }, {
         type: 'mask_top_to_bottom',
@@ -202,7 +209,7 @@ const main = async function () {
       ms: 50,
       color: [0.1, 0.7, 0.7],
     }, {
-      type: 'delay',
+      type: 'wait',
       ms: 2000,
     }],
   }));

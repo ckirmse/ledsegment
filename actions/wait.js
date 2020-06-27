@@ -2,7 +2,7 @@
 
 const Action = require('../action');
 
-class DelayAction extends Action {
+class WaitAction extends Action {
 
   constructor(options = {}) {
     const {
@@ -31,4 +31,4 @@ class DelayAction extends Action {
   }
 }
 
-module.exports = DelayAction;
+module.exports = WaitAction;
