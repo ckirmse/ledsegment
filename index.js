@@ -192,6 +192,7 @@ const main = async function () {
         type: 'mask_left_to_right',
         ms: 2000,
         turn_on: true,
+        ease: 'easeOut',
       }],
     }],
   }));
