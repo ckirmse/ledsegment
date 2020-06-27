@@ -4,7 +4,6 @@
 - make a message action that goes word by word
 - make actions get loaded by directory so action_tree is automated
 - rename delay_action to wait_action
-- add command line to choose output
 
 done
 - make an operator class for doing things like scrolling a message
@@ -23,3 +22,4 @@ done
 - make logging work with terminal
 - build up actions from data structure
 - add x/y coordinate lookups for segments
+- add command line to choose output

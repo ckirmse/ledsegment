@@ -1,5 +1,6 @@
 'use strict';
 
+const ColorLib = require('./color_lib');
 const log = require('./log');
 const TimedAction = require('./timed_action');
 

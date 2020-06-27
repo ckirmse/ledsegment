@@ -1,5 +1,7 @@
 'use strict';
 
+const ArgumentParser = require('argparse').ArgumentParser;
+
 const ActionTree = require('./action_tree');
 const log = require('./log');
 const ScrollAction = require('./scroll_action');
@@ -52,8 +54,25 @@ const createOutputTerminal = function () {
 };
 
 const main = async function () {
-  //const output = createOutputLed();
-  const output = createOutputTerminal();
+
+  const parser = new ArgumentParser({
+    description: 'Controller program for 8-character, 15-segment RGB LED device, or simulation',
+  });
+  parser.addArgument(['-t', '--terminal'], {
+    defaultValue: false,
+    action: 'storeTrue',
+    dest: 'terminal',
+    help: 'Output to terminal instead of hardware'
+  });
+
+  const args = parser.parseArgs();
+
+  let output;
+  if (args.terminal) {
+    output = createOutputTerminal();
+  } else {
+    output = createOutputLed();
+  }
   log.setOutput(output);
 
   await run(output, ActionTree.createActionFromData({
