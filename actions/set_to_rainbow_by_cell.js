@@ -1,8 +1,8 @@
 'use strict';
 
-const log = require('./log');
-const Action = require('./action');
-const RainbowLib = require('./rainbow_lib');
+const log = require('../log');
+const Action = require('../action');
+const RainbowLib = require('../rainbow_lib');
 
 class SetToRainbowByCellAction extends Action {
 

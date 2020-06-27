@@ -2,9 +2,9 @@
 - make a pull request against the native glue module (tried once...)
 - add a fade to other layer action
 - make a message action that goes word by word
-- make actions get loaded by directory so action_tree is automated
 - rename delay_action to wait_action
 - make an unfold from the middle action
+- add easing functions, options to add them to timed actions
 
 done
 - make an operator class for doing things like scrolling a message
@@ -24,3 +24,4 @@ done
 - build up actions from data structure
 - add x/y coordinate lookups for segments
 - add command line to choose output
+- make actions get loaded by directory so action_tree is automated

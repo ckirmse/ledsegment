@@ -1,7 +1,7 @@
 'use strict';
 
-const Action = require('./action');
-const log = require('./log');
+const Action = require('../action');
+const log = require('../log');
 
 class SetOnAction extends Action {
 

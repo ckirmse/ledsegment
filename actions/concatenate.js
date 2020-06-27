@@ -1,8 +1,8 @@
 'use strict';
 
-const Layer = require('./layer');
-const log = require('./log');
-const Action = require('./action');
+const Layer = require('../layer');
+const log = require('../log');
+const Action = require('../action');
 
 class ConcatenateAction extends Action {
 

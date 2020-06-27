@@ -1,6 +1,6 @@
 'use strict';
 
-const Action = require('./action');
+const Action = require('../action');
 
 class DelayAction extends Action {
 

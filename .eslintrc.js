@@ -60,7 +60,6 @@ module.exports = {
         'func-style': 'off',
         'function-paren-newline': 'error',
         'generator-star-spacing': 'error',
-        'global-require': 'error',
         'grouped-accessor-pairs': 'error',
         'guard-for-in': 'error',
         'handle-callback-err': 'error',

@@ -1,8 +1,8 @@
 'use strict';
 
-const Cell = require('./cell');
-const log = require('./log');
-const TimedAction = require('./timed_action');
+const Cell = require('../cell');
+const log = require('../log');
+const TimedAction = require('../timed_action');
 
 class MaskLeftToRightAction extends TimedAction {
 

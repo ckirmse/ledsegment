@@ -1,8 +1,8 @@
 'use strict';
 
-const Layer = require('./layer');
-const Action = require('./action');
-const log = require('./log');
+const Layer = require('../layer');
+const Action = require('../action');
+const log = require('../log');
 
 class StaticMessageAction extends Action {
 

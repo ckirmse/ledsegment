@@ -4,7 +4,7 @@ const ArgumentParser = require('argparse').ArgumentParser;
 
 const ActionTree = require('./action_tree');
 const log = require('./log');
-const ScrollAction = require('./scroll_action');
+const ScrollAction = require('./actions/scroll');
 const OutputLed = require('./output_led');
 const OutputTerminal = require('./output_terminal');
 
@@ -75,6 +75,38 @@ const main = async function () {
   }
   log.setOutput(output);
 
+  await ActionTree.init();
+
+  await run(output, ActionTree.createActionFromData({
+    type: 'default',
+    child_actions: [{
+      type: 'static_message',
+      message: ' HELLO!',
+    }, {
+      type: 'set_color',
+      color: [0, 0, 1],
+    }, {
+      type: 'fade_to_color',
+      ms: 2000,
+      color: [1, 1, 1],
+    }, {
+      type: 'sequential',
+      child_actions: [{
+        type: 'mask_left_to_right',
+        ms: 1000,
+        turn_on: true,
+      }, {
+        type: 'delay',
+        ms: 2000,
+      }, {
+        type: 'mask_left_to_right',
+        ms: 500,
+        turn_on: true,
+        is_reversed: true,
+      }],
+    }],
+  }));
+
   await run(output, ActionTree.createActionFromData({
     type: 'default',
     child_actions: [{
@@ -139,18 +171,18 @@ const main = async function () {
     }, {
       type: 'sequential',
       child_actions: [{
-        type: 'mask_top_to_bottom_action',
+        type: 'mask_top_to_bottom',
         ms: 2000,
         turn_on: true,
       }, {
         type: 'delay',
         ms: 4000,
       }, {
-        type: 'mask_top_to_bottom_action',
+        type: 'mask_top_to_bottom',
         ms: 2000,
         turn_on: false,
       }, {
-        type: 'mask_left_to_right_action',
+        type: 'mask_left_to_right',
         ms: 2000,
         turn_on: true,
       }],

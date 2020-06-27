@@ -1,9 +1,9 @@
 'use strict';
 
-const Display = require('./display');
-const Layer = require('./layer');
-const log = require('./log');
-const Action = require('./action');
+const Display = require('../display');
+const Layer = require('../layer');
+const log = require('../log');
+const Action = require('../action');
 
 class ScrollAction extends Action {
 

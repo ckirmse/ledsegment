@@ -1,7 +1,7 @@
 'use strict';
 
 const Layer = require('./layer');
-const GammaAction = require('./gamma_action');
+const GammaAction = require('./actions/gamma');
 const log = require('./log');
 
 class OutputLed {
