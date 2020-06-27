@@ -4,6 +4,7 @@
 - make a message action that goes word by word
 - make actions get loaded by directory so action_tree is automated
 - rename delay_action to wait_action
+- make an unfold from the middle action
 
 done
 - make an operator class for doing things like scrolling a message

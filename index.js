@@ -92,7 +92,7 @@ const main = async function () {
       type: 'sequential',
       child_actions: [{
         type: 'delay',
-        ms: 1000,
+        ms: 3000,
       }, {
         type: 'repeat',
         count: 5,
@@ -144,7 +144,7 @@ const main = async function () {
         turn_on: true,
       }, {
         type: 'delay',
-        ms: 1000,
+        ms: 4000,
       }, {
         type: 'mask_top_to_bottom_action',
         ms: 2000,
@@ -186,18 +186,18 @@ const main = async function () {
           type: 'default',
           child_actions: [{
             type: 'static_message',
-            message: 'This is a longer message',
+            message: 'This is a longer message.',
           }, {
             type: 'set_to_rainbow_by_cell',
           }],
         }, {
           type: 'static_message',
-          message: ' and this is white text.',
+          message: ' This is white text.',
         }, {
           type: 'default',
           child_actions: [{
             type: 'static_message',
-            message: 'Don\'t forget some rainbow text!',
+            message: ' Don\'t forget some rainbow text!',
           }, {
             type: 'set_to_rainbow_by_segment',
           }],
