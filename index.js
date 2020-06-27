@@ -52,8 +52,8 @@ const createOutputTerminal = function () {
 };
 
 const main = async function () {
-  const output = createOutputLed();
-  //const output = createOutputTerminal();
+  //const output = createOutputLed();
+  const output = createOutputTerminal();
   log.setOutput(output);
 
   await run(output, ActionTree.createActionFromData({
@@ -121,7 +121,7 @@ const main = async function () {
       type: 'sequential',
       child_actions: [{
         type: 'mask_top_to_bottom_action',
-        ms: 200,
+        ms: 2000,
         turn_on: true,
       }, {
         type: 'delay',
