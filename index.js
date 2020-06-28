@@ -101,6 +101,7 @@ const main = async function () {
       }, {
         type: 'mask_left_to_right',
         ms: 500,
+        reverse_direction: true,
         turn_on: true,
         is_reversed: true,
       }],
@@ -175,10 +176,12 @@ const main = async function () {
         child_actions: [{
           type: 'mask_top_to_bottom',
           ms: 2000,
+          reverse_direction: true,
           turn_on: true,
         }, {
           type: 'mask_left_to_right',
           ms: 2000,
+          reverse_direction: true,
           turn_on: true,
         }],
       }, {

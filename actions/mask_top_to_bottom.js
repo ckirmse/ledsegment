@@ -9,12 +9,14 @@ class MaskTopToBottomAction extends TimedAction {
   constructor(options = {}) {
     const {
       turn_on = true,
+      reverse_direction = false,
       transition_frac = 0.2,
     } = options;
 
     super(options);
 
     this.turn_on = turn_on;
+    this.reverse_direction = reverse_direction;
     this.transition_frac = transition_frac;
   }
 
@@ -37,14 +39,19 @@ class MaskTopToBottomAction extends TimedAction {
       const grid_coords = Cell.getSegmentGridCoords(segment_index);
       let count_filled = 0;
       for (const [_, y] of grid_coords) {
-        if (y < fill_y) {
+        let display_y = y;
+        if (this.reverse_direction) {
+          display_y = grid_height - display_y;
+        }
+
+        if (display_y < fill_y) {
           count_filled++;
           continue;
         }
-        if (y > start_fill_y) {
+        if (display_y > start_fill_y) {
           continue;
         }
-        count_filled += (start_fill_y - y) / (start_fill_y - fill_y)
+        count_filled += (start_fill_y - display_y) / (start_fill_y - fill_y)
       }
 
       let fill_ratio = count_filled / grid_coords.length;

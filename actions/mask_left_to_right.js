@@ -9,12 +9,14 @@ class MaskLeftToRightAction extends TimedAction {
   constructor(options = {}) {
     const {
       turn_on = true,
+      reverse_direction = false,
       transition_frac = 0.2,
     } = options;
 
     super(options);
 
     this.turn_on = options.turn_on;
+    this.reverse_direction = reverse_direction;
     this.transition_frac = transition_frac;
   }
 
@@ -38,7 +40,10 @@ class MaskLeftToRightAction extends TimedAction {
       const grid_coords = Cell.getSegmentGridCoords(segment_index);
       let count_filled = 0;
       for (const [x, _] of grid_coords) {
-        const display_x = (cell_index * grid_width) + x;
+        let display_x = (cell_index * grid_width) + x;
+        if (this.reverse_direction) {
+          display_x = (layer.getNumCells() * grid_width) - display_x;
+        }
         if (display_x < fill_x) {
           count_filled++;
           continue;
