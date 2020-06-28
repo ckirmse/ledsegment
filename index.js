@@ -38,7 +38,6 @@ const run = async function (output, action) {
 
 const createOutputLed = function () {
   const output_led = new OutputLed();
-  output_led.setBrightness(90);
 
   process.on('SIGINT', () => {
     console.log('terminating');

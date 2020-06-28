@@ -13,17 +13,13 @@ class OutputLed {
     ws281x.init(num_leds, {
       gpioNum: 12,
     });
-    this.pixel_data = new Uint32Array(num_leds);
+    ws281x.setBrightness(90);
 
-    this.gamma_action = new GammaAction();
+    this.pixel_data = new Uint32Array(num_leds);
   }
 
   destroy() {
     ws281x.reset();
-  }
-
-  setBrightness(brightness) {
-    ws281x.setBrightness(brightness);
   }
 
   log(...args) {
@@ -33,7 +29,6 @@ class OutputLed {
   render(action) {
     const output_layer = new Layer(8);
     action.applyToLayer(output_layer);
-    this.gamma_action.applyToLayer(output_layer);
 
     let i = 0;
     for (const [cell_index, segment_index, color] of output_layer.segmentEntries()) {
