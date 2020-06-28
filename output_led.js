@@ -1,5 +1,7 @@
 'use strict';
 
+const ws281x = require('rpi-ws281x-native');
+
 const Layer = require('./layer');
 const GammaAction = require('./actions/gamma');
 const log = require('./log');
@@ -7,10 +9,8 @@ const log = require('./log');
 class OutputLed {
 
   constructor() {
-    this.ws281x = require('./binding/ws281x.node');
-
     const num_leds = 120;
-    this.ws281x.init(num_leds, {
+    ws281x.init(num_leds, {
       gpioNum: 12,
     });
     this.pixel_data = new Uint32Array(num_leds);
@@ -19,12 +19,11 @@ class OutputLed {
   }
 
   destroy() {
-    this.ws281x.reset();
-    this.ws281x = null;
+    ws281x.reset();
   }
 
   setBrightness(brightness) {
-    this.ws281x.setBrightness(brightness);
+    ws281x.setBrightness(brightness);
   }
 
   log(...args) {
@@ -42,7 +41,7 @@ class OutputLed {
       i++;
     }
 
-    this.ws281x.render(this.pixel_data);
+    ws281x.render(this.pixel_data);
   }
 
 }
