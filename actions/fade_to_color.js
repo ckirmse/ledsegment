@@ -22,13 +22,13 @@ class FadeToColorAction extends TimedAction {
         continue;
       }
 
-      const faded_color = [
+      const output_color = [
         color[0] * (1 - progress_frac) + this.color[0] * progress_frac,
         color[1] * (1 - progress_frac) + this.color[1] * progress_frac,
         color[2] * (1 - progress_frac) + this.color[2] * progress_frac,
       ];
 
-      layer.getCell(cell_index).setSegmentColor(segment_index, faded_color);
+      layer.getCell(cell_index).setSegmentColor(segment_index, output_color);
     }
   }
 }

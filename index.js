@@ -81,6 +81,41 @@ const main = async function () {
     type: 'default',
     child_actions: [{
       type: 'static_message',
+      message: 'ABC%-123',
+    }, {
+      type: 'set_color',
+      color: [1, 0, 1],
+    }, {
+      type: 'sequential',
+      child_actions: [{
+        type: 'wait',
+        ms: 1000,
+      }, {
+        type: 'fade_to_children',
+        ms: 2000,
+        child_actions: [{
+          type: 'scroll',
+          scroll_ms: ScrollAction.SCROLL_FAST,
+          child_actions: [{
+            type: 'static_message',
+            message: 'MESSAGE COMING THROUGH!        ',
+          }, {
+            type: 'set_to_rainbow_by_cell',
+          }, {
+            type: 'fade_to_color',
+            is_reversed: true,
+            ms: 4000,
+            color: [0, 0, 1],
+          }],
+        }],
+      }],
+    }],
+  }));
+
+  await run(output, ActionTree.createActionFromData({
+    type: 'default',
+    child_actions: [{
+      type: 'static_message',
       message: ' HELLO!',
     }, {
       type: 'set_color',

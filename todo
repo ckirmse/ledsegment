@@ -1,8 +1,11 @@
 - make an action class for brightening/darkening under layer (changing Value I guess)
 - make a pull request against the native glue module (tried once...)
-- add a fade to other layer action
 - make a message action that goes word by word
 - make an unfold from the middle action
+- make a pulsing hue by cell action
+- make a pulsing hue by segment action
+- make a pulsing hue action
+- make some sort of idle/loading animation
 
 done
 - make an operator class for doing things like scrolling a message
@@ -26,3 +29,4 @@ done
 - rename delay_action to wait_action
 - add easing functions, options to add them to timed actions
 - have a mask right to left, bottom to top... maybe a flag?
+- add a fade to other layer action
