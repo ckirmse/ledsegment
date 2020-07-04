@@ -79,58 +79,72 @@ const main = async function () {
   await run(output, ActionTree.createActionFromData({
     type: 'default',
     child_actions: [{
-      type: 'repeat',
-      count: 2,
+      type: 'fade_to_children',
+      ease: 'easeIn',
+      ms: 2000,
       child_actions: [{
-        type: 'snake',
-        ms: 12000,
-      }, {
-        type: 'snake',
-        is_reversed: true,
-        full_frac: 1,
-        ms: 12000,
-      }],
-    }, {
-      type: 'sequential',
-      child_actions: [{
-        type: 'default',
+        type: 'repeat',
+        count: 2,
         child_actions: [{
-          type: 'multiply_color',
-          color: [0, 1, 0],
+          type: 'snake',
+          ms: 12000,
         }, {
-          type: 'fade_to_color',
-          ms: 3000,
-          color: [1, 0, 1],
+          type: 'snake',
+          offset: 0.5,
+          ms: 12000,
         }],
       }, {
-        type: 'default',
+        type: 'sequential',
         child_actions: [{
-          type: 'multiply_color',
-          color: [1, 0, 1],
+          type: 'default',
+          child_actions: [{
+            type: 'multiply_color',
+            color: [0, 1, 0],
+          }, {
+            type: 'fade_to_color',
+            ms: 3000,
+            color: [1, 0, 1],
+          }],
         }, {
-          type: 'fade_to_color',
-          ms: 3000,
-          color: [0, 1, 1],
-        }],
-      }, {
-        type: 'default',
-        child_actions: [{
-          type: 'multiply_color',
-          color: [0, 1, 1],
+          type: 'default',
+          child_actions: [{
+            type: 'multiply_color',
+            color: [1, 0, 1],
+          }, {
+            type: 'fade_to_color',
+            ms: 3000,
+            color: [0, 1, 1],
+          }],
         }, {
-          type: 'fade_to_color',
-          ms: 3000,
-          color: [1, 1, 0],
-        }],
-      }, {
-        type: 'default',
-        child_actions: [{
-          type: 'multiply_color',
-          color: [1, 1, 0],
+          type: 'default',
+          child_actions: [{
+            type: 'multiply_color',
+            color: [0, 1, 1],
+          }, {
+            type: 'fade_to_color',
+            ms: 3000,
+            color: [1, 1, 0],
+          }],
         }, {
-          type: 'fade_to_color',
-          ms: 3000,
-          color: [1, 0, 0],
+          type: 'default',
+          child_actions: [{
+            type: 'multiply_color',
+            color: [1, 1, 0],
+          }, {
+            type: 'fade_to_color',
+            ms: 3000,
+            color: [1, 0, 0],
+          }],
+        }, {
+          type: 'default',
+          child_actions: [{
+            type: 'multiply_color',
+            color: [1, 0, 0],
+          }, {
+            type: 'fade_to_color',
+            ms: 3000,
+            color: [1, 1, 1],
+          }],
         }],
       }],
     }],

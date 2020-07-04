@@ -26,13 +26,15 @@ class TimedAction extends Action {
     const {
       ms = 1000,
       is_reversed = false,
+      offset = 0,
       ease = 'linear',
     } = options;
 
     super(options);
 
-    this.total_ms = ms;
+    this.ms = ms;
     this.is_reversed = options.is_reversed;
+    this.initial_offset = offset;
     if (!Object.prototype.hasOwnProperty.call(ease_funcs, ease)) {
       log.error('unknown ease', ease);
       throw new Error('UnknownEase');
@@ -43,7 +45,8 @@ class TimedAction extends Action {
   }
 
   reset() {
-    this.remaining_ms = this.total_ms;
+    this.remaining_ms = this.ms;
+    this.offset = this.initial_offset;
     this.progress_frac = 0;
   }
 
@@ -51,11 +54,15 @@ class TimedAction extends Action {
     super.runTime(ms);
     this.remaining_ms = Math.max(0, this.remaining_ms - ms);
 
-    this.progress_frac = 1 - (this.remaining_ms / this.total_ms);
+    this.progress_frac = 1 - (this.remaining_ms / this.ms);
   }
 
   applyToLayer(layer) {
-    let progress_frac = this.ease_func(this.progress_frac);
+    let progress_frac = this.progress_frac + this.offset;
+    if (progress_frac > 1) {
+      progress_frac -= Math.floor(progress_frac);
+    }
+    progress_frac = this.ease_func(this.progress_frac + this.offset);
     if (this.is_reversed) {
       progress_frac = 1 - progress_frac;
     }

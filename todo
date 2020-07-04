@@ -4,7 +4,8 @@
 - make a pulsing hue by cell action
 - make a pulsing hue by segment action
 - make a pulsing hue action
-- add web server for accepting an action tree
+- add web server for accepting an action tree (koa)
+- add a "display phrase" action that shows first 8, then scrolls, then pauses as needed
 
 done
 - make an operator class for doing things like scrolling a message

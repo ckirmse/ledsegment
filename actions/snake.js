@@ -127,7 +127,7 @@ class SnakeAction extends TimedAction {
   constructor(options = {}) {
     const {
       transition_frac = 0.9, // fraction of each segment's fair share for it to fade in/out
-      full_frac = 2.9, // fraction of ecah segment's fair share for it to be solid
+      full_frac = 2.9, // fraction of each segment's fair share for it to be solid
     } = options;
 
     super(options);
