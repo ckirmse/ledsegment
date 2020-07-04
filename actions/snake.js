@@ -125,23 +125,27 @@ const snake_pattern = [
 class SnakeAction extends TimedAction {
 
   constructor(options = {}) {
+    const {
+      transition_frac = 0.9, // fraction of each segment's fair share for it to fade in/out
+      full_frac = 2.9, // fraction of ecah segment's fair share for it to be solid
+    } = options;
+
     super(options);
 
+    this.transition_frac = transition_frac;
+    this.full_frac = full_frac;
   }
 
   applyToLayerWithProgress(layer, progress_frac) {
     let total_count = snake_pattern.length;
 
-    let transition_frac = 0.9;
-    let full_frac = 2.9;
-
     for (let i = 0; i < total_count; i++) {
       let intensity = 0;
 
       let start_time = i / total_count;
-      let start_full_time = (i + transition_frac) / total_count;
-      let end_full_time = (i + transition_frac + full_frac) / total_count;
-      let end_time = (i + transition_frac + full_frac + transition_frac) / total_count;
+      let start_full_time = (i + this.transition_frac) / total_count;
+      let end_full_time = (i + this.transition_frac + this.full_frac) / total_count;
+      let end_time = (i + this.transition_frac + this.full_frac + this.transition_frac) / total_count;
 
       // need to pretend progress_frac is 3 different values to get wrap-around at the ends
       for (const pretend_frac of [progress_frac - 1, progress_frac, progress_frac + 1]) {

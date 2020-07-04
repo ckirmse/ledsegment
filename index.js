@@ -87,6 +87,7 @@ const main = async function () {
       }, {
         type: 'snake',
         is_reversed: true,
+        full_frac: 1,
         ms: 12000,
       }],
     }, {
