@@ -75,7 +75,7 @@ const main = async function () {
   log.setOutput(output);
 
   await ActionTree.init();
-/*
+
   await run(output, ActionTree.createActionFromData({
     type: 'default',
     child_actions: [{
@@ -184,7 +184,7 @@ const main = async function () {
       }],
     }],
   }));
-*/
+
   await run(output, ActionTree.createActionFromData({
     type: 'default',
     child_actions: [{

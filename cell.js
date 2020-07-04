@@ -114,7 +114,6 @@ const character_map = {
   '_': 0b0000000000001000,
   '{': 0b0000011001001001,
   '}': 0b0000100110001001,
-  // need to add parentheses
 };
 
 const segment_grid_coords_map = {

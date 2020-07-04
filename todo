@@ -33,3 +33,4 @@ done
 - remove now unneeded gamma correction; handled by library
 - make some sort of idle/loading animation (snake)
 - make an unfold from the middle action
+- add parentheses
