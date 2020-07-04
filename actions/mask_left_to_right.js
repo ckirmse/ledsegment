@@ -15,7 +15,7 @@ class MaskLeftToRightAction extends TimedAction {
 
     super(options);
 
-    this.turn_on = options.turn_on;
+    this.turn_on = turn_on;
     this.reverse_direction = reverse_direction;
     this.transition_frac = transition_frac;
   }

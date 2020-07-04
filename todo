@@ -1,6 +1,5 @@
 - make an action class for brightening/darkening under layer (changing Value I guess)
 - make a message action that goes word by word
-- make an unfold from the middle action
 - make a pulsing hue by cell action
 - make a pulsing hue by segment action
 - make a pulsing hue action
@@ -33,3 +32,4 @@ done
 - make a pull request against the native glue module (tried once...)
 - remove now unneeded gamma correction; handled by library
 - make some sort of idle/loading animation (snake)
+- make an unfold from the middle action

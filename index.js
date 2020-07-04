@@ -75,7 +75,7 @@ const main = async function () {
   log.setOutput(output);
 
   await ActionTree.init();
-
+/*
   await run(output, ActionTree.createActionFromData({
     type: 'default',
     child_actions: [{
@@ -184,7 +184,7 @@ const main = async function () {
       }],
     }],
   }));
-
+*/
   await run(output, ActionTree.createActionFromData({
     type: 'default',
     child_actions: [{
@@ -200,16 +200,14 @@ const main = async function () {
     }, {
       type: 'sequential',
       child_actions: [{
-        type: 'mask_left_to_right',
+        type: 'mask_middle_out',
         ms: 1000,
-        turn_on: true,
       }, {
         type: 'wait',
         ms: 2000,
       }, {
         type: 'mask_left_to_right',
         ms: 500,
-        reverse_direction: true,
         turn_on: true,
         is_reversed: true,
       }],
@@ -289,7 +287,6 @@ const main = async function () {
         }, {
           type: 'mask_left_to_right',
           ms: 2000,
-          reverse_direction: true,
           turn_on: true,
         }],
       }, {
