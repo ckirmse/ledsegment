@@ -3,7 +3,6 @@
 const ws281x = require('rpi-ws281x-native');
 
 const Layer = require('./layer');
-const GammaAction = require('./actions/gamma');
 const log = require('./log');
 
 class OutputLed {

@@ -79,6 +79,65 @@ const main = async function () {
   await run(output, ActionTree.createActionFromData({
     type: 'default',
     child_actions: [{
+      type: 'repeat',
+      count: 2,
+      child_actions: [{
+        type: 'snake',
+        ms: 12000,
+      }, {
+        type: 'snake',
+        is_reversed: true,
+        ms: 12000,
+      }],
+    }, {
+      type: 'sequential',
+      child_actions: [{
+        type: 'default',
+        child_actions: [{
+          type: 'multiply_color',
+          color: [0, 1, 0],
+        }, {
+          type: 'fade_to_color',
+          ms: 3000,
+          color: [1, 0, 1],
+        }],
+      }, {
+        type: 'default',
+        child_actions: [{
+          type: 'multiply_color',
+          color: [1, 0, 1],
+        }, {
+          type: 'fade_to_color',
+          ms: 3000,
+          color: [0, 1, 1],
+        }],
+      }, {
+        type: 'default',
+        child_actions: [{
+          type: 'multiply_color',
+          color: [0, 1, 1],
+        }, {
+          type: 'fade_to_color',
+          ms: 3000,
+          color: [1, 1, 0],
+        }],
+      }, {
+        type: 'default',
+        child_actions: [{
+          type: 'multiply_color',
+          color: [1, 1, 0],
+        }, {
+          type: 'fade_to_color',
+          ms: 3000,
+          color: [1, 0, 0],
+        }],
+      }],
+    }],
+  }));
+
+  await run(output, ActionTree.createActionFromData({
+    type: 'default',
+    child_actions: [{
       type: 'static_message',
       message: 'ABC%-123',
     }, {
@@ -97,13 +156,13 @@ const main = async function () {
           scroll_ms: ScrollAction.SCROLL_FAST,
           child_actions: [{
             type: 'static_message',
-            message: 'MESSAGE COMING THROUGH!        ',
+            message: 'MESSAGE COMING THROUGH and fading to rainbow!        ',
           }, {
             type: 'set_to_rainbow_by_cell',
           }, {
             type: 'fade_to_color',
             is_reversed: true,
-            ms: 4000,
+            ms: 6000,
             color: [0, 0, 1],
           }],
         }],

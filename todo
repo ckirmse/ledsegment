@@ -4,7 +4,6 @@
 - make a pulsing hue by cell action
 - make a pulsing hue by segment action
 - make a pulsing hue action
-- make some sort of idle/loading animation
 - add web server for accepting an action tree
 
 done
@@ -32,3 +31,4 @@ done
 - add a fade to other layer action
 - make a pull request against the native glue module (tried once...)
 - remove now unneeded gamma correction; handled by library
+- make some sort of idle/loading animation (snake)
