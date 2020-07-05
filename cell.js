@@ -163,6 +163,14 @@ class Cell {
     return GRID_HEIGHT;
   }
 
+  static getNumCharacters() {
+    return Object.keys(character_map).length;
+  }
+
+  static getCharacterByIndex(index) {
+    return Object.keys(character_map)[index];
+  }
+
   clear() {
     for (let i = 0; i < NUM_SEGMENTS; i++) {
       this.segments[i] = [0, 0, 0];

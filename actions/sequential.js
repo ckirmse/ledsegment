@@ -14,32 +14,29 @@ class SequentialAction extends Action {
   reset() {
     super.reset();
     this.child_index = 0;
+    this.is_done = false;
   }
 
   runTime(ms) {
-    if (this.isDone()) {
-      return;
-    }
-
     let action = this.child_actions[this.child_index];
     action.runTime(ms);
 
     if (action.isDone()) {
-      this.child_index++;
+      if (this.child_index < this.child_actions.length - 1) {
+        this.child_index++;
+      } else {
+        this.is_done = true;
+      }
     }
   }
 
   applyToLayer(layer) {
-    if (this.isDone()) {
-      return;
-    }
-
     let action = this.child_actions[this.child_index];
     action.applyToLayer(layer);
   }
 
   isDone() {
-    return this.child_index >= this.child_actions.length;
+    return this.is_done;
   }
 
 }

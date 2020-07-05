@@ -44,6 +44,10 @@ class TimedAction extends Action {
     this.reset();
   }
 
+  getTotalMs() {
+    return this.ms;
+  }
+
   reset() {
     this.remaining_ms = this.ms;
     this.offset = this.initial_offset;
