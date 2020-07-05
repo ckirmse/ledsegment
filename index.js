@@ -76,6 +76,7 @@ const main = async function () {
 
   await ActionTree.init();
 
+  /*
   await run(output, ActionTree.createActionFromData({
     type: 'default',
     child_actions: [{
@@ -149,7 +150,7 @@ const main = async function () {
       }],
     }],
   }));
-
+*/
 
   await run(output, ActionTree.createActionFromData({
     type: 'default',
@@ -193,7 +194,7 @@ const main = async function () {
           scroll_ms: ScrollAction.SCROLL_FAST,
           child_actions: [{
             type: 'static_message',
-            message: 'MESSAGE COMING THROUGH and fading to rainbow!        ',
+            message: '0123456789 {} () [] MESSAGE COMING THROUGH and fading to rainbow!        ',
           }, {
             type: 'set_to_rainbow_by_cell',
           }, {
@@ -216,12 +217,10 @@ const main = async function () {
       type: 'set_color',
       color: [0, 0, 1],
     }, {
-      /*
       type: 'fade_to_color',
       ms: 2000,
       color: [1, 1, 1],
     }, {
-      */
       type: 'sequential',
       child_actions: [{
         type: 'mask_middle_out',

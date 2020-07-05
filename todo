@@ -1,5 +1,4 @@
 - make an action class for brightening/darkening under layer (changing Value I guess)
-- make a message action that goes word by word
 - make a pulsing hue by cell action
 - make a pulsing hue by segment action
 - make a pulsing hue action
