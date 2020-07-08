@@ -153,20 +153,23 @@ const main = async function () {
 */
 
   await run(output, ActionTree.createActionFromData({
-    type: 'default',
+    type: 'sequential',
     child_actions: [{
-      type: 'static_message',
-      message: 'CODE IS',
-    }, {
-      type: 'unlock',
-      ms: 8000,
-    }, {
-      type: 'set_color',
-      color: [0.0001, 0.0001, 0.0001],
-    }, {
-      type: 'fade_to_color',
-      ms: 50,
-      color: [0.9, 0.7, 0.1],
+      type: 'default',
+      child_actions: [{
+        type: 'static_message',
+        message: 'PASSWORD',
+      }, {
+        type: 'unlock',
+        ms: 8000,
+      }, {
+        type: 'set_color',
+        color: [0.0001, 0.0001, 0.0001],
+      }, {
+        type: 'fade_to_color',
+        ms: 50,
+        color: [0.9, 0.7, 0.1],
+      }],
     }, {
       type: 'wait',
       ms: 2000,
