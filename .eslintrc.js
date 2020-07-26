@@ -89,7 +89,6 @@ module.exports = {
         'new-parens': 'error',
         'newline-after-var': 'off',
         'newline-before-return': 'off',
-        'newline-per-chained-call': 'error',
         'no-alert': 'error',
         'no-array-constructor': 'error',
         'no-await-in-loop': 'off',

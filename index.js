@@ -1,6 +1,7 @@
 'use strict';
 
 const ArgumentParser = require('argparse').ArgumentParser;
+const Koa = require('koa');
 
 const ActionTree = require('./action_tree');
 const log = require('./log');
@@ -15,6 +16,19 @@ const sleep = function (ms) {
     }, ms);
   });
 }
+
+const startWebServer = function (port) {
+  const server = new Koa();
+  server.use((ctx) => {
+    ctx.body = 'Hello World';
+  });
+
+  server.on('error', (err, ctx) => {
+    log.error('server error', err, ctx)
+  });
+
+  server.listen(port);
+};
 
 const run = async function (output, action) {
   let prev_ms = Date.now();
@@ -61,7 +75,13 @@ const main = async function () {
     defaultValue: false,
     action: 'storeTrue',
     dest: 'terminal',
-    help: 'Output to terminal instead of hardware'
+    help: 'Output to terminal instead of hardware',
+  });
+  parser.addArgument(['-p', '--port'], {
+    defaultValue: 80,
+    type: 'int',
+    dest: 'port',
+    help: 'TCP port on which to start a web server',
   });
 
   const args = parser.parseArgs();
@@ -75,6 +95,8 @@ const main = async function () {
   log.setOutput(output);
 
   await ActionTree.init();
+
+  startWebServer(args.port);
 
   /*
   await run(output, ActionTree.createActionFromData({
@@ -153,7 +175,25 @@ const main = async function () {
 */
 
   await run(output, ActionTree.createActionFromData({
-    type: 'sequential',
+    type: 'default',
+    child_actions: [{
+      type: 'default',
+      child_actions: [{
+        type: 'clock',
+      }, {
+        type: 'set_to_rainbow_by_cell',
+      }, {
+        type: 'mask_top_to_bottom',
+        ms: 500,
+      }],
+    }, {
+      type: 'wait',
+      ms: 15000,
+    }],
+  }));
+
+  await run(output, ActionTree.createActionFromData({
+    type: 'default',
     child_actions: [{
       type: 'default',
       child_actions: [{
@@ -172,7 +212,7 @@ const main = async function () {
       }],
     }, {
       type: 'wait',
-      ms: 2000,
+      ms: 10000,
     }],
   }));
 
@@ -384,6 +424,8 @@ const main = async function () {
   }));
 
   output.destroy();
+
+  process.exit(1);
 };
 
 main();
