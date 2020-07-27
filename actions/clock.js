@@ -6,34 +6,60 @@ const log = require('../log');
 class ClockAction extends Action {
 
   constructor(options = {}) {
+    const {
+      fade_ms = 500,
+    } = options;
+
     super(options);
 
+    this.fade_ms = fade_ms;
     this.setWidth(8);
 
-    this.datetime = new Date();
+    this.epoch_ms = Date.now();
+
   }
 
   runTime(ms) {
-    const epoch_ms = Date.now();
-    if ((epoch_ms - this.datetime.getTime()) < 100) {
-      return;
-    }
-
-    this.datetime = new Date(epoch_ms);
+    this.epoch_ms = Date.now();
   }
 
   applyToLayer(layer) {
-    const hours_str = this.datetime.getHours().toString().padStart(2, ' ');
-    const minutes_str = this.datetime.getMinutes().toString().padStart(2, '0');
-    const seconds_str = this.datetime.getSeconds().toString().padStart(2, '0');
-    const str = `${hours_str} ${minutes_str} ${seconds_str}`;
+    const current_datetime = new Date(this.epoch_ms);
+
+    const current_hours_str = current_datetime.getHours().toString().padStart(2, ' ');
+    const current_minutes_str = current_datetime.getMinutes().toString().padStart(2, '0');
+    const current_seconds_str = current_datetime.getSeconds().toString().padStart(2, '0');
+    const current_str = `${current_hours_str} ${current_minutes_str} ${current_seconds_str}`;
+
+    const next_datetime = new Date(this.epoch_ms + this.fade_ms);
+    const next_hours_str = next_datetime.getHours().toString().padStart(2, ' ');
+    const next_minutes_str = next_datetime.getMinutes().toString().padStart(2, '0');
+    const next_seconds_str = next_datetime.getSeconds().toString().padStart(2, '0');
+    const next_str = `${next_hours_str} ${next_minutes_str} ${next_seconds_str}`;
+
+    let current_frac;
+    if ((current_datetime % 1000) > (1000 - this.fade_ms)) {
+      // start fading out current
+      current_frac = (1000 - (current_datetime % 1000)) / this.fade_ms;
+    } else {
+      // all current
+      current_frac = 1;
+    }
+    // should pass current_frac through an ease_func here
+
+    const next_frac = 1 - current_frac;
 
     for (const [cell_index, cell] of layer.entries()) {
-      if (cell_index >= str.length) {
-        continue;
+      cell.clear();
+      if (cell_index < current_str.length) {
+        cell.addCharacterColor(current_str[cell_index], [current_frac, current_frac, current_frac]);
       }
-      cell.setCharacterColor(str[cell_index], [1, 1, 1]);
+      if (cell_index < next_str.length) {
+        cell.addCharacterColor(next_str[cell_index], [next_frac, next_frac, next_frac]);
+      }
     }
+    layer.getCell(2).setPeriodColor([1, 1, 1]);
+    layer.getCell(4).setPeriodColor([1, 1, 1]);
 
   }
 }

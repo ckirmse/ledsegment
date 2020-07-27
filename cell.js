@@ -211,6 +211,10 @@ class Cell {
     this.segments[segment_index][2] = color[2];
   }
 
+  setPeriodColor(color) {
+    this.setSegmentColor(14, color);
+  }
+
   setCharacterColor(ch, color) {
     let segment_bits = 0;
     if (Object.prototype.hasOwnProperty.call(character_map, ch)) {
@@ -222,6 +226,21 @@ class Cell {
         this.segments[i] = color.slice();
       } else {
         this.segments[i] = [0, 0, 0];
+      }
+    }
+  }
+
+  addCharacterColor(ch, color) {
+    let segment_bits = 0;
+    if (Object.prototype.hasOwnProperty.call(character_map, ch)) {
+      segment_bits = character_map[ch];
+    }
+
+    for (let i = 0; i < NUM_SEGMENTS; i++) {
+      if (segment_bits & (1 << i)) {
+        this.segments[i][0] += color[0];
+        this.segments[i][1] += color[1];
+        this.segments[i][2] += color[2];
       }
     }
   }

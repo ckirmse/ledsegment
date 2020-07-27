@@ -180,15 +180,17 @@ const main = async function () {
       type: 'default',
       child_actions: [{
         type: 'clock',
+        fade_ms: 400,
       }, {
-        type: 'set_to_rainbow_by_cell',
+        type: 'multiply_color',
+        color: [0.6, 1, 0.6],
       }, {
         type: 'mask_top_to_bottom',
         ms: 500,
       }],
     }, {
       type: 'wait',
-      ms: 15000,
+      ms: 10000,
     }],
   }));
 
