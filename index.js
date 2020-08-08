@@ -182,8 +182,31 @@ const main = async function () {
         type: 'clock',
         fade_ms: 400,
       }, {
-        type: 'multiply_color',
-        color: [0.6, 1, 0.6],
+        type: 'multiply_by_children',
+        child_actions: [{
+          type: 'set_on',
+        }, {
+          type: 'set_to_rainbow_by_cell',
+        }, {
+          type: 'repeat',
+          count: 5,
+          child_actions: [{
+            type: 'sequential',
+            child_actions: [{
+              type: 'fade_to_color',
+              ms: 1000,
+              color: [1, 1, 1],
+            }, {
+              type: 'fade_to_color',
+              ms: 1000,
+              color: [1, 1, 1],
+              is_reversed: true,
+            }, {
+              type: 'wait',
+              ms: 1000,
+            }],
+          }],
+        }],
       }, {
         type: 'mask_top_to_bottom',
         ms: 500,

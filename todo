@@ -4,7 +4,6 @@
 - make a pulsing hue action
 - add web server for accepting an action tree (koa)
 - add a "display phrase" action that shows first 8, then scrolls, then pauses as needed
-- add multiply-by-layer action
 
 done
 - make an operator class for doing things like scrolling a message
@@ -36,3 +35,4 @@ done
 - add parentheses
 - add wargames-like unlock
 - add clock action
+- add multiply-by-layer action
