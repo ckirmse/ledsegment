@@ -180,9 +180,8 @@ const main = async function () {
       type: 'default',
       child_actions: [{
         type: 'clock',
-        fade_ms: 400,
       }, {
-        type: 'multiply_by_children',
+        type: 'multiply_value_by_children',
         child_actions: [{
           type: 'set_on',
         }, {
@@ -195,15 +194,17 @@ const main = async function () {
             child_actions: [{
               type: 'fade_to_color',
               ms: 1000,
-              color: [1, 1, 1],
+              color: [0.5, 0.5, 0.5],
+              ease: 'sin',
             }, {
               type: 'fade_to_color',
               ms: 1000,
-              color: [1, 1, 1],
+              color: [0.5, 0.5, 0.5],
               is_reversed: true,
+              ease: 'sin',
             }, {
               type: 'wait',
-              ms: 1000,
+              ms: 3000,
             }],
           }],
         }],
@@ -213,9 +214,13 @@ const main = async function () {
       }],
     }, {
       type: 'wait',
-      ms: 10000,
+      ms: 60000,
     }],
   }));
+
+  output.destroy();
+
+  process.exit(1);
 
   await run(output, ActionTree.createActionFromData({
     type: 'default',

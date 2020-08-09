@@ -18,6 +18,8 @@ const ease_funcs = {
   easeOut: (t) => (--t) * t * t + 1,
   // acceleration until halfway, then deceleration
   easeInOut: (t) => (t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1),
+  // similar to easeOut
+  sin: (t) => Math.sin(t * Math.PI / 2),
 };
 
 class TimedAction extends Action {
