@@ -4,6 +4,7 @@
 - make a pulsing hue action
 - add web server for accepting an action tree (koa)
 - add a "display phrase" action that shows first 8, then scrolls, then pauses as needed
+- add default display with ip address, hostname, clock
 
 done
 - make an operator class for doing things like scrolling a message
@@ -39,3 +40,4 @@ done
 - make a brightness swapper using hsv
 - split out ease functions into an ease_lib
 - add ease flag to clock
+- add rotate-hue action

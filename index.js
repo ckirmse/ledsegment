@@ -189,6 +189,9 @@ const main = async function () {
         }, {
           type: 'set_to_rainbow_by_cell',
         }, {
+          type: 'rotate_hue_over_time',
+          /*
+        }, {
           type: 'repeat',
           count: 5,
           child_actions: [{
@@ -209,6 +212,7 @@ const main = async function () {
               ms: 3000,
             }],
           }],
+          */
         }],
       }, {
         type: 'mask_top_to_bottom',
