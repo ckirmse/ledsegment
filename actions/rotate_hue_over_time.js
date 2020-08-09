@@ -18,7 +18,7 @@ class RotateHueOverTime extends Action {
   }
 
   runTime(ms) {
-    this.elapsed_ms += ms;
+    this.elapsed_ms = (this.elapsed_ms + ms) % this.cycle_ms;
   }
 
   applyToLayer(layer) {

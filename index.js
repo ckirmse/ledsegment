@@ -172,7 +172,7 @@ const main = async function () {
       }],
     }],
   }));
-*/
+  */
 
   await run(output, ActionTree.createActionFromData({
     type: 'default',
