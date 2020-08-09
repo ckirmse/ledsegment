@@ -180,6 +180,8 @@ const main = async function () {
       type: 'default',
       child_actions: [{
         type: 'clock',
+        fade_ms: 1000,
+        ease: 'easeInOut',
       }, {
         type: 'multiply_value_by_children',
         child_actions: [{

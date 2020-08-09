@@ -1,26 +1,8 @@
 'use strict';
 
 const Action = require('./action');
+const EaseLib = require('./ease_lib');
 const log = require('./log');
-
-const ease_funcs = {
-  // no easing, no acceleration
-  linear: (t) => t,
-  // accelerating from zero velocity
-  easeInQuad: (t) => t * t,
-  // decelerating to zero velocity
-  easeOutQuad: (t) => t * (2 - t),
-  // acceleration until halfway, then deceleration
-  easeInOutQuad: (t) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t),
-  // accelerating from zero velocity
-  easeIn: (t) => t * t * t,
-  // decelerating to zero velocity
-  easeOut: (t) => (--t) * t * t + 1,
-  // acceleration until halfway, then deceleration
-  easeInOut: (t) => (t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1),
-  // similar to easeOut
-  sin: (t) => Math.sin(t * Math.PI / 2),
-};
 
 class TimedAction extends Action {
 
@@ -37,11 +19,11 @@ class TimedAction extends Action {
     this.ms = ms;
     this.is_reversed = options.is_reversed;
     this.initial_offset = offset;
-    if (!Object.prototype.hasOwnProperty.call(ease_funcs, ease)) {
+    if (!Object.prototype.hasOwnProperty.call(EaseLib, ease)) {
       log.error('unknown ease', ease);
       throw new Error('UnknownEase');
     }
-    this.ease_func = ease_funcs[ease];
+    this.ease_func = EaseLib[ease];
 
     this.reset();
   }

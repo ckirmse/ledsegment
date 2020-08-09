@@ -1,6 +1,7 @@
 'use strict';
 
 const Action = require('../action');
+const EaseLib = require('../ease_lib');
 const log = require('../log');
 
 class ClockAction extends Action {
@@ -8,15 +9,21 @@ class ClockAction extends Action {
   constructor(options = {}) {
     const {
       fade_ms = 500,
+      ease = 'linear',
     } = options;
 
     super(options);
 
-    this.fade_ms = fade_ms;
     this.setWidth(8);
 
-    this.epoch_ms = Date.now();
+    this.fade_ms = fade_ms;
+    if (!Object.prototype.hasOwnProperty.call(EaseLib, ease)) {
+      log.error('unknown ease', ease);
+      throw new Error('UnknownEase');
+    }
+    this.ease_func = EaseLib[ease];
 
+    this.epoch_ms = Date.now();
   }
 
   runTime(ms) {
@@ -45,7 +52,7 @@ class ClockAction extends Action {
       // all current
       current_frac = 1;
     }
-    // should pass current_frac through an ease_func here
+    current_frac = this.ease_func(current_frac);
 
     const next_frac = 1 - current_frac;
 
