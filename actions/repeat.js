@@ -21,19 +21,20 @@ class RepeatAction extends Action {
     this.remaining_count = this.total_count;
   }
 
-  isDone() {
+  runTime(ms) {
+    super.runTime(ms);
+
     if (!super.isDone()) {
-      return false;
+      return;
     }
 
     this.remaining_count--;
-    if (this.remaining_count === 0) {
-      return true;
-    }
 
     this.resetAllChildren();
+  }
 
-    return false;
+  isDone() {
+    return this.remaining_count === 0;
   }
 }
 
