@@ -3,19 +3,11 @@
 const ArgumentParser = require('argparse').ArgumentParser;
 const Koa = require('koa');
 
+const ActionRunner = require('./action_runner');
 const ActionTree = require('./action_tree');
 const log = require('./log');
-const ScrollAction = require('./actions/scroll');
 const OutputLed = require('./output_led');
 const OutputTerminal = require('./output_terminal');
-
-const sleep = function (ms) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      return resolve();
-    }, ms);
-  });
-}
 
 const startWebServer = function (port) {
   const server = new Koa();
@@ -28,26 +20,6 @@ const startWebServer = function (port) {
   });
 
   server.listen(port);
-};
-
-const run = async function (output, action) {
-  let prev_ms = Date.now();
-
-  while (true) {
-    let now = Date.now();
-    const elapsed_ms = now - prev_ms;
-
-    action.runTime(elapsed_ms);
-
-    output.render(action);
-
-    if (action.isDone()) {
-      break;
-    }
-
-    prev_ms = now;
-    await sleep(0);
-  }
 };
 
 const createOutputLed = function () {
@@ -98,81 +70,85 @@ const main = async function () {
 
   startWebServer(args.port);
 
+  const action_runner = new ActionRunner(output);
+  await action_runner.init();
+
+  await action_runner.run();
+
   /*
-  await run(output, ActionTree.createActionFromData({
+    await run(output, ActionTree.createActionFromData({
     type: 'default',
     child_actions: [{
-      type: 'fade_to_children',
-      ease: 'easeIn',
-      ms: 2000,
-      child_actions: [{
-        type: 'repeat',
-        count: 2,
-        child_actions: [{
-          type: 'snake',
-          ms: 12000,
-        }, {
-          type: 'snake',
-          offset: 0.5,
-          ms: 12000,
-        }],
-      }, {
-        type: 'sequential',
-        child_actions: [{
-          type: 'default',
-          child_actions: [{
-            type: 'multiply_color',
-            color: [0, 1, 0],
-          }, {
-            type: 'fade_to_color',
-            ms: 3000,
-            color: [1, 0, 1],
-          }],
-        }, {
-          type: 'default',
-          child_actions: [{
-            type: 'multiply_color',
-            color: [1, 0, 1],
-          }, {
-            type: 'fade_to_color',
-            ms: 3000,
-            color: [0, 1, 1],
-          }],
-        }, {
-          type: 'default',
-          child_actions: [{
-            type: 'multiply_color',
-            color: [0, 1, 1],
-          }, {
-            type: 'fade_to_color',
-            ms: 3000,
-            color: [1, 1, 0],
-          }],
-        }, {
-          type: 'default',
-          child_actions: [{
-            type: 'multiply_color',
-            color: [1, 1, 0],
-          }, {
-            type: 'fade_to_color',
-            ms: 3000,
-            color: [1, 0, 0],
-          }],
-        }, {
-          type: 'default',
-          child_actions: [{
-            type: 'multiply_color',
-            color: [1, 0, 0],
-          }, {
-            type: 'fade_to_color',
-            ms: 3000,
-            color: [1, 1, 1],
-          }],
-        }],
-      }],
+    type: 'fade_to_children',
+    ease: 'easeIn',
+    ms: 2000,
+    child_actions: [{
+    type: 'repeat',
+    count: 2,
+    child_actions: [{
+    type: 'snake',
+    ms: 12000,
+    }, {
+    type: 'snake',
+    offset: 0.5,
+    ms: 12000,
     }],
-  }));
-  */
+    }, {
+    type: 'sequential',
+    child_actions: [{
+    type: 'default',
+    child_actions: [{
+    type: 'multiply_color',
+    color: [0, 1, 0],
+    }, {
+    type: 'fade_to_color',
+    ms: 3000,
+    color: [1, 0, 1],
+    }],
+    }, {
+    type: 'default',
+    child_actions: [{
+    type: 'multiply_color',
+    color: [1, 0, 1],
+    }, {
+    type: 'fade_to_color',
+    ms: 3000,
+    color: [0, 1, 1],
+    }],
+    }, {
+    type: 'default',
+    child_actions: [{
+    type: 'multiply_color',
+    color: [0, 1, 1],
+    }, {
+    type: 'fade_to_color',
+    ms: 3000,
+    color: [1, 1, 0],
+    }],
+    }, {
+    type: 'default',
+    child_actions: [{
+    type: 'multiply_color',
+    color: [1, 1, 0],
+    }, {
+    type: 'fade_to_color',
+    ms: 3000,
+    color: [1, 0, 0],
+    }],
+    }, {
+    type: 'default',
+    child_actions: [{
+    type: 'multiply_color',
+    color: [1, 0, 0],
+    }, {
+    type: 'fade_to_color',
+    ms: 3000,
+    color: [1, 1, 1],
+    }],
+    }],
+    }],
+    }],
+    }));
 
   await run(output, ActionTree.createActionFromData({
     type: 'default',
@@ -190,7 +166,6 @@ const main = async function () {
           type: 'set_to_rainbow_by_cell',
         }, {
           type: 'rotate_hue_over_time',
-          /*
         }, {
           type: 'repeat',
           count: 5,
@@ -212,7 +187,6 @@ const main = async function () {
               ms: 3000,
             }],
           }],
-          */
         }],
       }, {
         type: 'mask_top_to_bottom',
@@ -325,7 +299,7 @@ const main = async function () {
       color: [0.001, 0.001, 0.001],
     }, {
       type: 'fade_to_color',
-        ms: 100,
+      ms: 100,
       color: [1, 1, 1],
     }, {
       type: 'set_to_rainbow_by_cell',
@@ -458,7 +432,7 @@ const main = async function () {
       }],
     }],
   }));
-
+*/
   output.destroy();
 
   process.exit(1);
