@@ -43,20 +43,20 @@ const main = async function () {
   const parser = new ArgumentParser({
     description: 'Controller program for 8-character, 15-segment RGB LED device, or simulation',
   });
-  parser.addArgument(['-t', '--terminal'], {
-    defaultValue: false,
-    action: 'storeTrue',
+  parser.add_argument('-t', '--terminal', {
+    default: false,
+    action: 'store_true',
     dest: 'terminal',
     help: 'Output to terminal instead of hardware',
   });
-  parser.addArgument(['-p', '--port'], {
-    defaultValue: 80,
+  parser.add_argument('-p', '--port', {
+    default: 80,
     type: 'int',
     dest: 'port',
     help: 'TCP port on which to start a web server',
   });
 
-  const args = parser.parseArgs();
+  const args = parser.parse_args();
 
   let output;
   if (args.terminal) {
