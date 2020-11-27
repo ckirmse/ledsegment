@@ -1,6 +1,6 @@
 'use strict';
 
-const ws281x = require('./binding/ws281x.node');
+const ws281x = require('rpi-ws281x-native');
 
 function rgb2Int(r, g, b) {
   return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
