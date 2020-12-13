@@ -53,12 +53,18 @@ exports.listen = function (port, action_runner) {
       return;
     }
 
-    if (ctx.path === '/') {
+    if (ctx.path === '/board-array') {
+      const board_array = calculateBoardArray(action_runner.getAction());
+      ctx.type = 'application/json';
+      ctx.body = JSON.stringify(board_array, null, 2);
+      return;
+    }
 
+    if (ctx.path === '/') {
       const board_array = calculateBoardArray(action_runner.getAction());
       ctx.type = 'text/html';
       const template = await pfs.readFile(path.join(__dirname, 'home.html'), {encoding: 'utf8'});
-      const html = template.replace(/\$\{board_array\}/ui, JSON.stringify(board_array));
+      const html = template.replace(/\$\{board_array\}/ug, JSON.stringify(board_array));
       ctx.body = html;
       return;
     }

@@ -15,18 +15,36 @@
       // one 14-segment cell is 8x11 in "chunky" pixels
       const PIXEL_WIDTH = 10;
       const PIXEL_HEIGHT = 20;
-      const board = ${board_array};
 
-      window.addEventListener('load', (event) => {
+      const drawCanvas = function (board_array) {
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
 
-        for (const [y, row] of board.entries()) {
+        for (const [y, row] of board_array.entries()) {
           for (const [x, color] of row.entries()) {
             ctx.fillStyle = 'rgb(' + Math.floor(255 * color[0]) + ',' + Math.floor(255 * color[1]) + ',' + Math.floor(255 * color[2]) + ')';
             ctx.fillRect(x * PIXEL_WIDTH, y * PIXEL_HEIGHT, PIXEL_WIDTH, PIXEL_HEIGHT);
           }
         }
+      };
+
+      const updateBoard = async function () {
+        try {
+          const response = await fetch('/board-array');
+          const board_array = await response.json();
+          drawCanvas(board_array);
+        } catch (err) {
+          console.log('error updating board', err);
+        }
+        setTimeout(updateBoard, 200);
+      };
+
+      window.addEventListener('load', (event) => {
+        // this ${} variable is filled in by the web server
+        const board_array = ${board_array};
+        drawCanvas(board_array);
+
+        setTimeout(updateBoard, 200);
       });
       </script>
   </head>
