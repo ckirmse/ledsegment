@@ -28,7 +28,7 @@ class RepeatAction extends Action {
       return;
     }
 
-    this.remaining_count--;
+    this.remaining_count = Math.max(0, this.remaining_count - 1);
 
     this.resetAllChildren();
   }
