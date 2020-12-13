@@ -220,7 +220,6 @@ module.exports = {
             'single'
         ],
         'radix': 'error',
-        'require-atomic-updates': 'error',
         'require-await': 'error',
         'require-jsdoc': 'off',
         'require-unicode-regexp': 'error',

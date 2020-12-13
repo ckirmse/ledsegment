@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <title>LED Segment Display</title>
+    <style>
+      html {
+        background-color: #000;
+        color: #aaa;
+      }
+      #canvas {
+        padding: 5px;
+        border: 5px solid #444;
+      }
+      </style>
+    <script>
+      // one 14-segment cell is 8x11 in "chunky" pixels
+      const PIXEL_WIDTH = 10;
+      const PIXEL_HEIGHT = 20;
+      const board = ${board_array};
+
+      window.addEventListener('load', (event) => {
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        for (const [y, row] of board.entries()) {
+          for (const [x, color] of row.entries()) {
+            ctx.fillStyle = 'rgb(' + Math.floor(255 * color[0]) + ',' + Math.floor(255 * color[1]) + ',' + Math.floor(255 * color[2]) + ')';
+            ctx.fillRect(x * PIXEL_WIDTH, y * PIXEL_HEIGHT, PIXEL_WIDTH, PIXEL_HEIGHT);
+          }
+        }
+      });
+      </script>
+  </head>
+  <body>
+    <h1>LED Segment Display</h1>
+    <h2>Current Display</h2>
+    <canvas id="canvas" width=640 height=220></canvas>
+    <h2>Local Links</h2>
+    <ul>
+      <li><a href="/status">Full json of board actions</a>
+      <li><a href="/is-done">Is done/not done of board actions</a>
+    </ul>
+  </body>
+</html>

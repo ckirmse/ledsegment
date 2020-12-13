@@ -1,43 +1,13 @@
 'use strict';
 
 const ArgumentParser = require('argparse').ArgumentParser;
-const Koa = require('koa');
 
 const ActionRunner = require('./action_runner');
 const ActionTree = require('./action_tree');
 const log = require('./log');
 const OutputLed = require('./output_led');
 const OutputTerminal = require('./output_terminal');
-
-let action_runner;
-
-const startWebServer = function (port) {
-  const server = new Koa();
-  server.use((ctx) => {
-    if (ctx.path === '/favicon.ico') {
-      return;
-    }
-    if (ctx.path === '/is-done') {
-      ctx.type = 'application/json';
-      ctx.body = JSON.stringify(action_runner.getAction().getStatusIsDone(), null, 2);
-      return;
-    }
-    if (ctx.path === '/') {
-      ctx.type = 'application/json';
-      ctx.body = JSON.stringify(action_runner.getAction(), null, 2);
-      return;
-    }
-
-    ctx.status = 404;
-    ctx.body = '404 Page not found';
-  });
-
-  server.on('error', (err, ctx) => {
-    log.error('server error', err, ctx)
-  });
-
-  server.listen(port);
-};
+const WebServer = require('./web_server');
 
 const createOutputLed = function () {
   const output_led = new OutputLed();
@@ -85,10 +55,10 @@ const main = async function () {
 
   await ActionTree.init();
 
-  startWebServer(args.port);
-
-  action_runner = new ActionRunner(output);
+  const action_runner = new ActionRunner(output);
   await action_runner.init();
+
+  WebServer.listen(args.port, action_runner);
 
   await action_runner.run();
 
