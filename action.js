@@ -4,11 +4,13 @@ class Action {
 
   constructor(options = {}) {
     const {
+      type = 'unknown',
       child_actions = [],
     } = options;
     if (!Array.isArray(child_actions)) {
       throw new Error('ChildActionsNotArray');
     }
+    this.type = type;
     this.child_actions = child_actions;
 
     this.width = Math.max(0, ...this.child_actions.map((action) => action.getWidth()));
@@ -51,6 +53,14 @@ class Action {
       }
     }
     return true;
+  }
+
+  getStatusIsDone() {
+    return {
+      type: this.type,
+      is_done: this.isDone(),
+      child_actions: this.child_actions.map((action) => action.getStatusIsDone()),
+    };
   }
 }
 

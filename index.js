@@ -9,10 +9,27 @@ const log = require('./log');
 const OutputLed = require('./output_led');
 const OutputTerminal = require('./output_terminal');
 
+let action_runner;
+
 const startWebServer = function (port) {
   const server = new Koa();
   server.use((ctx) => {
-    ctx.body = 'Hello World';
+    if (ctx.path === '/favicon.ico') {
+      return;
+    }
+    if (ctx.path === '/is-done') {
+      ctx.type = 'application/json';
+      ctx.body = JSON.stringify(action_runner.getAction().getStatusIsDone(), null, 2);
+      return;
+    }
+    if (ctx.path === '/') {
+      ctx.type = 'application/json';
+      ctx.body = JSON.stringify(action_runner.getAction(), null, 2);
+      return;
+    }
+
+    ctx.status = 404;
+    ctx.body = '404 Page not found';
   });
 
   server.on('error', (err, ctx) => {
@@ -70,7 +87,7 @@ const main = async function () {
 
   startWebServer(args.port);
 
-  const action_runner = new ActionRunner(output);
+  action_runner = new ActionRunner(output);
   await action_runner.init();
 
   await action_runner.run();

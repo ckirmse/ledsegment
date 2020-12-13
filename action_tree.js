@@ -52,6 +52,7 @@ class ActionTree {
     }
 
     const create_options = {
+      type: options.type,
       ...options,
       child_actions,
     };

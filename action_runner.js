@@ -227,6 +227,10 @@ class ActionRunner {
       await sleep(0);
     }
   }
+
+  getAction() {
+    return this.action;
+  }
 }
 
 
