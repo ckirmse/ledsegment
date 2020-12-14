@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
     'env': {
         'commonjs': true,
@@ -220,7 +222,6 @@ module.exports = {
             'single'
         ],
         'radix': 'error',
-        'require-await': 'error',
         'require-jsdoc': 'off',
         'require-unicode-regexp': 'error',
         'rest-spread-spacing': 'error',
