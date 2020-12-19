@@ -3,27 +3,7 @@
 const ArgumentParser = require('argparse').ArgumentParser;
 
 const ActionRunner = require('./action_runner');
-const ActionTree = require('./action_tree');
 const log = require('./log');
-const OutputLed = require('./output_led');
-const OutputTerminal = require('./output_terminal');
-const WebServer = require('./web_server');
-
-const createOutputLed = function () {
-  const output_led = new OutputLed();
-
-  process.on('SIGINT', () => {
-    console.log('terminating');
-    output_led.destroy();
-    process.exit(0);
-  });
-
-  return output_led;
-}
-
-const createOutputTerminal = function () {
-  return new OutputTerminal();
-};
 
 const main = async function () {
 
@@ -45,20 +25,12 @@ const main = async function () {
 
   const args = parser.parse_args();
 
-  let output;
-  if (args.terminal) {
-    output = createOutputTerminal();
-  } else {
-    output = createOutputLed();
-  }
-  log.setOutput(output);
+  const action_runner = new ActionRunner({
+    output_terminal: args.terminal,
+    port: args.port,
+  });
 
-  await ActionTree.init();
-
-  const action_runner = new ActionRunner(output);
   await action_runner.init();
-
-  WebServer.listen(args.port, action_runner);
 
   await action_runner.run();
 
@@ -420,8 +392,6 @@ const main = async function () {
     }],
   }));
 */
-  output.destroy();
-
   process.exit(1);
 };
 

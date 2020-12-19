@@ -4,7 +4,26 @@ const os = require('os');
 
 const ActionTree = require('./action_tree');
 const log = require('./log');
+const OutputLed = require('./output_led');
+const OutputTerminal = require('./output_terminal');
 const ScrollAction = require('./actions/scroll');
+const WebServer = require('./web_server');
+
+const createOutputLed = function () {
+  const output_led = new OutputLed();
+
+  process.on('SIGINT', () => {
+    console.log('terminating');
+    output_led.destroy();
+    process.exit(0);
+  });
+
+  return output_led;
+}
+
+const createOutputTerminal = function () {
+  return new OutputTerminal();
+};
 
 const sleep = function (ms) {
   return new Promise((resolve, reject) => {
@@ -198,13 +217,32 @@ const getDefaultAction = async function () {
 
 class ActionRunner {
 
-  constructor(output) {
-    this.output = output;
+  constructor(options) {
+    if (!options) {
+      throw new Error('MissingOptions');
+    }
+    if (options.output_terminal) {
+      this.output = createOutputTerminal();
+    } else {
+      this.output = createOutputLed();
+    }
+    log.setOutput(this.output);
+
     this.action = null;
   }
 
   async init() {
+    await ActionTree.init();
+
     this.action = await getDefaultAction();
+
+    if (this.port) {
+      WebServer.listen(this.port, this);
+    }
+  }
+
+  destroy() {
+    this.output.destroy();
   }
 
   async run() {
