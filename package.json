@@ -3,9 +3,9 @@
   "description": "Controller for 15-segment ws2812 led displays",
   "dependencies": {
     "argparse": "^2.0.1",
-    "eslint": "^7.15.0",
+    "eslint": "^7.16.0",
     "koa": "^2.13.0",
-    "rpi-ws281x-native": "git+https://github.com/ckirmse/node-rpi-ws281x-native.git",
+    "rpi-ws281x-native": "^0.10.1",
     "seedrandom": "^3.0.5",
     "terminal-kit": "^1.44.0"
   }
