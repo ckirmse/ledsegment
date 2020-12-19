@@ -10,7 +10,7 @@ class OutputLed {
   constructor() {
     const num_leds = 120;
     ws281x.init(num_leds, {
-      gpioPin: 12,
+      gpioPin: 10,
       brightness: 90,
     });
 
