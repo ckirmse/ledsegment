@@ -68,7 +68,7 @@ const getDefaultAction = async function () {
           }],
         }],
       }, {
-        type: 'scroll',
+        type: 'show_and_scroll',
         scroll_ms: ScrollAction.SCROLL_MEDIUM,
         child_actions: [{
           type: 'concatenate',
@@ -76,7 +76,7 @@ const getDefaultAction = async function () {
             type: 'default',
             child_actions: [{
               type: 'static_message',
-              message: ' HOSTNAME ',
+              message: 'HOSTNAME ',
             }, {
               type: 'set_color',
               color: [1, 0.5, 1],
