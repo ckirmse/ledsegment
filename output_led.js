@@ -1,15 +1,17 @@
 'use strict';
 
-const ws281x = require('rpi-ws281x-native');
-
 const Layer = require('./layer');
 const log = require('./log');
 
 class OutputLed {
 
   constructor() {
+    // we put this in here so it doesn't print out warnings if it is unused
+    this.ws281x = require('rpi-ws281x-native');
+
     const num_leds = 120;
-    ws281x.init(num_leds, {
+
+    this.ws281x.init(num_leds, {
       gpioPin: 10,
       brightness: 90,
     });
@@ -18,7 +20,7 @@ class OutputLed {
   }
 
   destroy() {
-    ws281x.reset();
+    this.ws281x.reset();
   }
 
   log(...args) {
@@ -35,7 +37,7 @@ class OutputLed {
       i++;
     }
 
-    ws281x.render(this.pixel_data);
+    this.ws281x.render(this.pixel_data);
   }
 
 }

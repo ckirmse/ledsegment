@@ -248,6 +248,10 @@ class ActionRunner {
     this.is_done = true;
   }
 
+  setNextAction(action) {
+    this.next_action = ActionTree.createActionFromData(action);
+  }
+
   async run() {
     let prev_ms = Date.now();
 
@@ -259,13 +263,18 @@ class ActionRunner {
 
       this.output.render(this.action);
 
-      if (this.action.isDone()) {
-        // should check if there's a next action to change to eventually...
-        this.action.reset();
-      }
-
       prev_ms = now;
+
       await sleep(0);
+
+      if (this.action.isDone()) {
+        if (this.next_action) {
+          this.action = this.next_action;
+          this.next_action = null;
+        } else {
+          this.action.reset();
+        }
+      }
     }
 
     this.output.destroy();
