@@ -228,6 +228,9 @@ class ActionRunner {
     }
     log.setOutput(this.output);
 
+    this.http_port = options.http_port;
+
+    this.is_done = false;
     this.action = null;
   }
 
@@ -236,19 +239,19 @@ class ActionRunner {
 
     this.action = await getDefaultAction();
 
-    if (this.port) {
-      WebServer.listen(this.port, this);
+    if (this.http_port) {
+      WebServer.listen(this.http_port, this);
     }
   }
 
   destroy() {
-    this.output.destroy();
+    this.is_done = true;
   }
 
   async run() {
     let prev_ms = Date.now();
 
-    while (true) {
+    while (!this.is_done) {
       let now = Date.now();
       const elapsed_ms = now - prev_ms;
 
@@ -264,6 +267,8 @@ class ActionRunner {
       prev_ms = now;
       await sleep(0);
     }
+
+    this.output.destroy();
   }
 
   getAction() {
