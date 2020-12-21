@@ -71,55 +71,71 @@ const getDefaultAction = async function () {
           }],
         }],
       }, {
-        type: 'show_and_scroll',
-        scroll_ms: ScrollAction.SCROLL_MEDIUM,
+        type: 'default',
         child_actions: [{
-          type: 'concatenate',
+          type: 'show_and_scroll',
+          scroll_ms: ScrollAction.SCROLL_MEDIUM,
           child_actions: [{
-            type: 'default',
+            type: 'concatenate',
             child_actions: [{
-              type: 'static_message',
-              message: 'HOSTNAME ',
+              type: 'default',
+              child_actions: [{
+                type: 'static_message',
+                message: 'HOSTNAME ',
+              }, {
+                type: 'set_color',
+                color: [1, 0.5, 1],
+              }, {
+                type: 'rotate_hue_over_time',
+                cycle_ms: 30000,
+              }],
             }, {
-              type: 'set_color',
-              color: [1, 0.5, 1],
-            }, {
-              type: 'rotate_hue_over_time',
-              cycle_ms: 30000,
-            }],
-          }, {
-            type: 'default',
-            child_actions: [{
-              type: 'static_message',
-              message: hostname + ' '.repeat(8),
-            }, {
-              type: 'fade_to_color',
-              ms: 5000,
-              color: [0, 1, 1],
+              type: 'default',
+              child_actions: [{
+                type: 'static_message',
+                message: hostname + ' '.repeat(8),
+              }, {
+                type: 'fade_to_color',
+                ms: 5000,
+                color: [0, 1, 1],
+              }],
             }],
           }],
+        }, {
+          type: 'mask_top_to_bottom',
+          ms: 1000,
+          reverse_direction: true,
+          turn_on: true,
         }],
       }, {
-        type: 'show_and_scroll',
-        scroll_ms: ScrollAction.SCROLL_MEDIUM,
+        type: 'default',
         child_actions: [{
-          type: 'concatenate',
+          type: 'show_and_scroll',
+          scroll_ms: ScrollAction.SCROLL_MEDIUM,
           child_actions: [{
-            type: 'static_message',
-            message: 'IP addresses ',
-          }, {
-            type: 'default',
+            type: 'concatenate',
             child_actions: [{
               type: 'static_message',
-              message: ip_addresses.join(' '),
+              message: 'IP addresses ',
             }, {
-              type: 'multiply_by_color_transition',
-              top_left_color: [0, 0.5, 1],
-              bottom_left_color: [0, 0.3, 0.6],
-              top_right_color: [1, 1, 1],
-              bottom_right_color: [0.6, 0.6, 0.6],
+              type: 'default',
+              child_actions: [{
+                type: 'static_message',
+                message: ip_addresses.join(' ') + ' '.repeat(8),
+              }, {
+                type: 'multiply_by_color_transition',
+                top_left_color: [0, 0.5, 1],
+                bottom_left_color: [0, 0.3, 0.6],
+                top_right_color: [1, 1, 1],
+                bottom_right_color: [0.6, 0.6, 0.6],
+              }],
             }],
           }],
+        }, {
+          type: 'mask_left_to_right',
+          ms: 1000,
+          reverse_direction: true,
+          turn_on: true,
         }],
       }, {
         type: 'default',

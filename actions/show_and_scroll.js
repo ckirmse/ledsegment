@@ -11,7 +11,7 @@ class ShowAndScrollAction extends Action {
 
   constructor(options = {}) {
     const {
-      show_ms = 1000,
+      show_ms = 2000,
       scroll_ms = ScrollAction.SCROLL_FAST,
     } = options;
 

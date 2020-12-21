@@ -41,7 +41,7 @@ class MaskTopToBottomAction extends TimedAction {
       for (const [_, y] of grid_coords) {
         let display_y = y;
         if (this.reverse_direction) {
-          display_y = grid_height - display_y;
+          display_y = grid_height - 1 - display_y;
         }
 
         if (display_y < fill_y) {

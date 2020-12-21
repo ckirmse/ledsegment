@@ -42,7 +42,7 @@ class MaskLeftToRightAction extends TimedAction {
       for (const [x, _] of grid_coords) {
         let display_x = (cell_index * grid_width) + x;
         if (this.reverse_direction) {
-          display_x = (layer.getNumCells() * grid_width) - display_x;
+          display_x = (layer.getNumCells() * grid_width) - 1 - display_x;
         }
         if (display_x < fill_x) {
           count_filled++;
