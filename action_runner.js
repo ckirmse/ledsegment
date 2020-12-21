@@ -3,6 +3,7 @@
 const os = require('os');
 
 const ActionTree = require('./action_tree');
+const IpLib = require('./ip_lib');
 const log = require('./log');
 const OutputLed = require('./output_led');
 const OutputTerminal = require('./output_terminal');
@@ -35,6 +36,8 @@ const sleep = function (ms) {
 
 const getDefaultAction = async function () {
   const hostname = os.hostname();
+
+  const ip_addresses = IpLib.getIpAddresses();
 
   return ActionTree.createActionFromData({
     type: 'default',
@@ -90,26 +93,33 @@ const getDefaultAction = async function () {
               type: 'static_message',
               message: hostname + ' '.repeat(8),
             }, {
-              type: 'sequential',
-              child_actions: [{
-                type: 'wait',
-                ms: 6000,
-              }, {
-                type: 'fade_to_color',
-                ms: 6000,
-                color: [0, 1, 1],
-              }],
+              type: 'fade_to_color',
+              ms: 5000,
+              color: [0, 1, 1],
             }],
           }],
         }],
       }, {
-        type: 'default',
+        type: 'show_and_scroll',
+        scroll_ms: ScrollAction.SCROLL_MEDIUM,
         child_actions: [{
-          type: 'static_message',
-          message: 'IP addr',
-        }, {
-          type: 'wait',
-          ms: 10000,
+          type: 'concatenate',
+          child_actions: [{
+            type: 'static_message',
+            message: 'IP addresses ',
+          }, {
+            type: 'default',
+            child_actions: [{
+              type: 'static_message',
+              message: ip_addresses.join(' '),
+            }, {
+              type: 'multiply_by_color_transition',
+              top_left_color: [0, 0.5, 1],
+              bottom_left_color: [0, 0.3, 0.6],
+              top_right_color: [1, 1, 1],
+              bottom_right_color: [0.6, 0.6, 0.6],
+            }],
+          }],
         }],
       }, {
         type: 'default',

@@ -1,5 +1,6 @@
 'use strict';
 
+const Display = require('../display');
 const Layer = require('../layer');
 const log = require('../log');
 const Action = require('../action');
@@ -27,7 +28,7 @@ class ShowAndScrollAction extends Action {
   reset() {
     this.remaining_ms = this.show_ms;
     this.src_index = 0;
-    this.run_steps = Math.max(1, this.getWidth() - 1);
+    this.run_steps = Math.max(1, this.getWidth() - Display.getNumCells() - 1);
     this.is_show = true;
     this.is_done = false;
   }
@@ -51,7 +52,7 @@ class ShowAndScrollAction extends Action {
       return;
     }
 
-    //log.info('src, dest, run_steps', this.src_index, this.run_steps);
+    //log.info('src, run_steps', this.src_index, this.run_steps);
 
     if (this.src_index >= this.run_steps) {
       this.is_done = true;

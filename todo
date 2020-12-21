@@ -2,7 +2,6 @@
 - make a pulsing hue by cell action
 - make a pulsing hue by segment action
 - make a pulsing hue action
-- add default display with ip address, hostname, clock
 
 done
 - make an operator class for doing things like scrolling a message
@@ -41,3 +40,4 @@ done
 - add rotate-hue action
 - add web server to show state of board
 - add a "display phrase" action that shows first 8, then scrolls, then pauses as needed
+- add default display with ip address, hostname, clock
