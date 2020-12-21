@@ -34,7 +34,7 @@ const sleep = function (ms) {
   });
 }
 
-const getDefaultAction = async function () {
+const getDefaultAction = function () {
   const hostname = os.hostname();
 
   const ip_addresses = IpLib.getIpAddresses();
@@ -121,14 +121,17 @@ const getDefaultAction = async function () {
               type: 'default',
               child_actions: [{
                 type: 'static_message',
-                message: ip_addresses.join(' ') + ' '.repeat(8),
+                message: ip_addresses.join(' '),
               }, {
                 type: 'multiply_by_color_transition',
                 top_left_color: [0, 0.5, 1],
-                bottom_left_color: [0, 0.3, 0.6],
+                bottom_left_color: [0, 0.15, 0.3],
                 top_right_color: [1, 1, 1],
-                bottom_right_color: [0.6, 0.6, 0.6],
+                bottom_right_color: [0.3, 0.3, 0.3],
               }],
+            }, {
+              type: 'static_message',
+              message: ' '.repeat(8),
             }],
           }],
         }, {
@@ -263,7 +266,7 @@ class ActionRunner {
   async init() {
     await ActionTree.init();
 
-    this.action = await getDefaultAction();
+    this.action = getDefaultAction();
 
     if (this.http_port) {
       WebServer.listen(this.http_port, this);
@@ -298,7 +301,7 @@ class ActionRunner {
           this.action = this.next_action;
           this.next_action = null;
         } else {
-          this.action.reset();
+          this.action = getDefaultAction();
         }
       }
     }
