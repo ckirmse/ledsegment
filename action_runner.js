@@ -259,14 +259,15 @@ class ActionRunner {
 
     this.http_port = options.http_port;
 
+    this.is_running = false;
     this.is_done = false;
+
     this.action = null;
+    this.next_action = null;
   }
 
   async init() {
     await ActionTree.init();
-
-    this.action = getDefaultAction();
 
     if (this.http_port) {
       WebServer.listen(this.http_port, this);
@@ -281,7 +282,23 @@ class ActionRunner {
     this.next_action = ActionTree.createActionFromData(action);
   }
 
+  updateAction() {
+    if (this.next_action) {
+      this.action = this.next_action;
+      this.next_action = null;
+    } else {
+      this.action = getDefaultAction();
+    }
+  }
+
   async run() {
+    if (this.is_running) {
+      return;
+    }
+
+    this.is_running = true;
+    this.updateAction();
+
     let prev_ms = Date.now();
 
     while (!this.is_done) {
@@ -297,16 +314,13 @@ class ActionRunner {
       await sleep(0);
 
       if (this.action.isDone()) {
-        if (this.next_action) {
-          this.action = this.next_action;
-          this.next_action = null;
-        } else {
-          this.action = getDefaultAction();
-        }
+        this.updateAction();
       }
     }
 
     this.output.destroy();
+
+    this.is_running = false;
   }
 
   getAction() {
